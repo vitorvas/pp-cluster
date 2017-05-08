@@ -101,6 +101,26 @@ profissional por pesquisadores/técnicos.)
   
 \end{itemize}
 
+The system is formed by a set of eight identical blade servers each with 20 cores and equiped with
+NVIDIA GPU's M200 CUDA\cite{CUDA} capable. The GPU's on servers, despite capable of visualization,
+are expected to be used as secondary calculation units. Also part of the sistem, the master server is aimed to calculations
+visualiation and simulations manager. The master computer has
+four network devices and a slightly more powerful GPU to visualization and display.
+
+The original OS sold with the cluster is an OEM (Original Equipament Manufacturer) Windows 7 \cite{windows7}. This
+OS is not supported by the whole set of software expected to be used by the research group users. The chosen
+system to replace the original Windows 7 is CentOS \cite{centos}, which offers a plataform to natively run all
+software needed by the users. However, there are more than one way of setup a cluster system with respect
+to filesystem, software execution and user access.
+
+The next paragraphs, describe different option of setup for a Linux cluster with respect to software execution.
+
+\begin{itemize}
+\item Direct OS installation
+\item Use of dockers
+\item SO virtualization
+\end{itemize}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results and Analysis}
 
