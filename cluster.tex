@@ -1,0 +1,183 @@
+\documentclass{anstrans}
+
+%%%% packages and definitions (optional)
+\usepackage{graphicx} % allows inclusion of graphics
+\usepackage{booktabs} % nice rules (thick lines) for tables
+\usepackage{microtype} % improves typography for PDF
+
+% Para português
+\usepackage[utf8]{inputenc}     % Codificacao do documento (conversão automática dos acentos)
+
+\newcommand{\SN}{S$_N$}
+\renewcommand{\vec}[1]{\bm{#1}} % vector is bold italic
+\newcommand{\vd}{\bm{\cdot}} % slightly bold vector dot
+\newcommand{\grad}{\vec{\nabla}} % gradient
+\newcommand{\ud}{\mathop{}\!\mathrm{d}} % upright derivative symbol
+
+
+%%%% changes from the original 'anstrans' class
+\usepackage{fancyhdr} % allows headers and footers
+
+\renewcommand\headrule{} % remove underline in the header
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{\Roman{section}.}
+\renewcommand{\thesubsection}{\arabic{subsection}.}
+\renewcommand{\thesubsubsection}{\Alph{subsubsection}.}
+\makeatletter
+\renewcommand*{\@seccntformat}[1]{\csname the#1\endcsname\hspace{1mm}}
+\makeatother
+
+
+%%%% Header
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\fontsize{9}{9} \itshape
+  INAC 2017 - International Nuclear Atlantic Conference, Belo Horizonte, Brazil,\\
+  October 22-27, 2017
+}
+
+
+%%%% Maketitle
+\title{Professional cluster management by a small scientific team: challenges, solutions
+and perpectives}
+%\author{Vitor V. Araújo Silva,$^{*}$ and André A. Campagnole dos Santos and Renan O. da Cunha}
+\author{Vitor V. Araújo Silva and André A. Campagnole dos Santos and Renan O. da Cunha}
+
+\institute{
+  %$^{*}$Centro de Desenvolvimento da Tecnologia Nuclear - CDTN
+  Centro de Desenvolvimento da Tecnologia Nuclear - CDTN
+}
+
+\email{\{vitors, aacs, roc\}@cdtn.br}
+
+% Optional disclaimer: remove this command to hide
+\disclaimer{Notice: this manuscript is a work of fiction. Any resemblance to
+actual articles, living or dead, is purely coincidental.}
+
+
+%%%% Abstract
+\begin{document}
+\vspace*{-42pt}
+\begin{strip}
+\centering{\parbox{153mm}{{\bf Abstract} \itshape - 
+
+}\par}
+\vspace*{14pt}
+\end{strip}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+
+\subsection{Context}
+(Qual será o uso do cluster? Por quem? Quais os perfis dos usuários e de possíveis usuários?
+Qual o impacto desse cluster para o CDTN? Em que isso pode nos fortalecer em Computação Científica?)
+Um bom artigo num nível acima do nosso \textit{cluster} fala sobre os novos desafios de \textit{hexascale computing}
+é o de Dongarra \cite{Dongarra2017}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Objective}
+
+The objective of this paper is to present the challenges, problems and solutions proposed
+to setup a professional computational
+cluster to carry heavy numerical calculations in a context of a small research team.
+
+(Apresentar as decisões técnicas envolvidas na instalação de um cluster
+profissional por pesquisadores/técnicos.)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Methodology}
+
+  A figura~\ref{fig:esquema-cluster} apresenta o sistema de forma simplificada.
+  
+\begin{itemize}
+
+\item (Indentificação do sistema $\rightarrow$ Características: memória, CPUs, GPUs, cores, rede, topologia, sistema de arquivos, inserção na rede institucional)
+
+\item (Possíveis soluções/soluções encontradas em relação a cada característica apresentada. Por exemplo: Lustre \cite{Lustre} ou Gluster\cite{Gluster} para o sistema de arquivos?)
+
+\item (Para cada solução escolhida: Por quê?)
+  
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results and Analysis}
+
+\begin{itemize}
+
+\item (Situação atual do sistema - no momento de finalizer o paper)
+\item (Dificuldades identificadas: Resolvidas (como) e Pendentes.
+  
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Subsection Goes Here}
+The user must manually capitalize initial letters of a subsection heading.
+
+Figure~\ref{fig:esquema-cluster}
+Note how Fig.~\ref{fig:esquema-cluster} uses dashed lines \verb|--| for the exact
+solution, solid lines \verb|-| for the new method's solutions, and dotted lines
+\verb|:| for existing inaccurate methods.
+\begin{figure}[ht] % replace 't' with 'b' to force it to be on the bottom
+  \centering
+  \includegraphics[scale=0.15]{images/esquema_cluster_edited_bw.png}
+  \caption{Captions are flush with the left.}
+  \label{fig:esquema-cluster}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% \begin{table*}[htb]
+%%   \centering
+%% \begin{tabular}{llllllllll}\toprule
+%%       & $\phi_T(0)$      & $\phi_T(10)$      & $\phi_T(20)$      &
+%%       $\phi_D(0)$      & $\phi_D(10)$      & $\phi_D(20)$      & $\rho$      &
+%%       $\varepsilon$      & $N_\text{it}$
+%% \\ \midrule
+%% $c=0.999$  & 0.9038 & 20.63 & 31.24 & 0.9087 & 20.63 & 31.23 & 0.2192 & $10^{-7}$ & 15
+%% \\
+%% $c=0.990$  & 0.3675 & 13.04 & 24.7 & 0.3696 & 13.04 & 24.69 & 0.2184 & $10^{-7}$ & 15
+%% \\
+%% $c=0.900$  & 0.009909 & 4.776 & 17.64 & 0.009984 & 4.786 & 17.63 & 0.2118 & $10^{-7}$ & 14
+%% \\
+%% $c=0.500$  & $6.069\times 10^{-5}$ & 2.212 & 15.53 & 6.213$\times 10^{-5}$ & 2.239 & 15.53 & 0.2068 & $10^{-7}$ & 13
+%% \\
+%% \bottomrule
+%% \end{tabular}
+%%   \caption{This is an example of a really wide table which might not normally
+%%   fit in the document.}
+%%   \label{tab:widetable}
+%% \end{table*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Notice how the table reference uses a Roman numeral
+%% for its numbering scheme, whereas the figure reference uses an Arabic numeral.
+%% For one-column tables, use the \verb|table| environment; two-column tables use
+%% \verb|table*|. The same applies to figures.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Another Subsection}
+
+\subsubsection{Third-level Heading}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
+
+(O que está bom, o que está ruim na atual instalação)
+(Trabalhos futuros: pra onde ir (operação), possíveis mudanças)
+
+Uma citação \cite{Henderson17}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+\section{Appendix}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Acknowledgments}
+The authors would like to thank FUJB for financing the cluster acquisition
+as part of the project XXXXX.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{ans} % Don't forget to run BibTeX !
+\bibliography{bibli}
+
+\end{document}
