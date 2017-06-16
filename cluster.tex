@@ -103,7 +103,7 @@ profissional por pesquisadores/técnicos.)
   
 \begin{itemize}
 
-\item (Indentificação do sistema $\rightarrow$ Características: memória, CPUs, GPUs, cores, rede, topologia, sistema de arquivos, inserção na rede institucional)
+\item (Indentificação do sistema $\rightarrow$ Características: memória, CPUs, GPUs (Graphics Processing Units), cores, rede, topologia, sistema de arquivos, inserção na rede institucional)
 
 \item (Possíveis soluções/soluções encontradas em relação a cada característica apresentada. Por exemplo: Lustre \cite{Lustre} ou Gluster\cite{Gluster} para o sistema de arquivos?)
 
@@ -112,10 +112,10 @@ profissional por pesquisadores/técnicos.)
 \end{itemize}
 
 The system is formed by a set of eight identical blade servers each with 20 cores and equiped with
-NVIDIA GPU's M200 CUDA\cite{CUDA} capable. The GPU's on servers, despite capable of visualization,
+NVIDIA GPU's M4000 CUDA\cite{CUDA} capable. The GPU's on servers, despite capable of visualization,
 are expected to be used as secondary calculation units. Also part of the sistem, the master server is aimed to calculations
 visualiation and simulations manager. The master computer has
-four network devices and a slightly more powerful GPU to visualization and display.
+four network devices and a NVIDIA GPU M2000 aimed to visualization and graphics display.
 
 The original OS sold with the cluster is an OEM (Original Equipament Manufacturer) Windows 7 \cite{windows7}. This
 OS is not supported by the whole set of software expected to be used by the research group users. The chosen
@@ -130,6 +130,36 @@ The next paragraphs, describe different option of setup for a Linux cluster with
 \item Use of dockers
 \item SO virtualization
 \end{itemize}
+
+\subsection{Making use of graphics processors}
+
+The system under consideration has powerful GPU cards installed in machines
+which have no output display. The use of GPU's to perform tasks other than graphics processing
+is nowdays widespread in many fields of research \cite{UsoDeGpus}. Modern software is written with
+the objective of taking advantage of this ``extra'' processing capabilities and studies of software
+engineering on parallelization of sequential algorithms to be applied in GPU's are a significant
+nowdays.
+
+In order to make the use of GPU's for general processing less dificult, libraries, compilers and
+frameworks were developed. At the beggining these tools were developed and deployed by graphics cards
+manufacturers. The pionner in offering both GPU's cards capable of general use is NVIDIA, which,
+without surprise, is also pionner in making a available a full framework for its GPU programming.
+This tool is called CUDA (Compute Unified Device Architecture) and is a parallel computing platform
+and application programming interface (API) model.
+
+However, with the increase of the use the cards, developers start to demand some
+standardization ir order to be able experiment new algorithms in different cards. Today, the
+reference framework for development for heterogeneus platforms is \textit{OpenCL} \cite{OpenCL}.
+
+--- Como funciona o OpenCL
+
+The idea for the cluster system, is to provide both CUDA libraries for
+software developed for NVIDIA graphic cards and also OpenCL libraries to
+be used by software written to make use of the programming genericity
+provided by OpenCL. As the time of writing, the libraries were installed
+in only one node of the cluster and tests are being envisaged to check
+compatibility of both framewoks.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results and Analysis}
