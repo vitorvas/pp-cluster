@@ -7,6 +7,8 @@
 \usepackage[font=bf,center]{caption}
 \usepackage{subfigure}
 
+\usepackage{textcomp}             % Para usar marca registrada
+
 \title{PROFESSIONAL CLUSTER MANAGEMENT BY A SMALL SCIENTIFIC TEAM: CHALLENGES, SOLUTIONS
 AND PERPECTIVES}
 
@@ -43,7 +45,7 @@ be carried on by no other than the user itself. This is the situation at Centro 
 da Tecnologia Nuclear - and in many nuclear research and educational centres in developing countries -
 where the scientists are the users of the cluster but also the technical
 team responsible to keep the system running. This paper presents the process of planning
-and installing the whole operational system and scientific software of a professional cluster
+and installing the whole operating system and scientific software of a professional cluster
 aimed to be used in the nuclear engineering field from the point of view of its users.
 The drawbacks of lack of expertise and technical skills to
 manage such type of technology are opposed to the advantages of freedom to chose the solutions
@@ -73,9 +75,9 @@ heterogeneus and used to a differente set of problems at the same time, while a 
 cluster is aimed to have each node solving the same problem.
 
 To be able to have sets of computers working together and be able to control the utilization of the system,
-it is absolutelly fundamental to have an operational system capable of offering interconnection, data sharing,
-task schedule and user administration. The \textbf{de facto} operational system widely used in these situations
-is Linux \cite{Linux}. After chosing a suitable operational system, its mandatory to evaluate the applications to
+it is absolutelly fundamental to have an operating system capable of offering interconnection, data sharing,
+task schedule and user administration. The \textbf{de facto} operating system widely used in these situations
+is Linux \cite{Linux}. After chosing a suitable operating system, its mandatory to evaluate the applications to
 be used, the level of security to be enforced and, fundamentally, the dynamics of the operation of the system.
 These factors will define the suitable solutions for different aspects of the system, ranging from data
 sharing among nodes to options to update, backup and acess the system.
@@ -112,7 +114,8 @@ presented by Dongarra \cite{Dongarra2017}.
 \section{OBJECTIVE}
 
 The objective of this paper is to present the challenges, problems and solutions proposed
-to setup a professional computational cluster to carry heavy numerical calculations in a
+to setup a professional computational cluster to carry heavy numerical calculations focused in
+neutronics and thermal-hydraulics of nuclear reactors in a
 context of a small research team.
 
 %\begin{equation}
@@ -122,21 +125,74 @@ context of a small research team.
 
 %------------------------------------------------------------------------------
 
-\section{METHODOLOGY}
+\section{METHODS AND PROCEDURES}
 
+\subsection{Original Hardware and Software}
 
-  A figura~\ref{fig:esquema-cluster} apresenta o sistema de forma simplificada.
-  
+The so-called cluster system is formed by a set of identical high performance computers -
+total number of eight machines - with a master unit with slightly different configuration.
+Figure ~\ref{fig:cluster} presents a schematic representation of the system and
+its network topology.
+
+\begin{figure}[h] % t forces top and b forces bottom: can be added to h, ex. [ht]
+%  \centering\includegraphics[width=8.5cm,height=8.5cm]{images/esquema_cluster_edited_bw.png}
+  \centering\includegraphics[scale=0.25]{images/esquema_cluster_edited_bw-no-net.png}
+  \caption{Cluster hardware.}
+  \label{fig:cluster}
+\end{figure}
+
+The \textit{slave} machines are Dell workstations Precision R7910. These machines are equiped
+with Dual Intel{\textregistered} Xeon{\textregistered} processors E5-2640 operating at $2.4$GHz with
+$32$Gb of RAM each. They have 2x$10$GbE (Gigabit ethernet) and 2x$1$Gbit network connectors, which
+allow the use of the Gigabit network exclusively for intra-cluster communication. Each node
+has a $360$Gb solid state disk for storage.
+
+These equipaments are also installed with Nvidia{\textregistered} GPU's (Graphic Processing Units) M4000{\textregistered} with $8$Gb CUDA\cite{CUDA} capable.
+The GPU's on nodes, despite capable of visualization, are expected to be used as secondary calculation units.
+The use of graphic processors for calculations is widely applied in scientific computing and these devides
+are also called accelerators \cite{Accelerators}.
+
+The \textit{master} machine is a Dell Precision T7910, with very similar configuration of the slaves. The main
+differences rely on the graphics processor unit, equipped with another Nvidia{\textregistered} GPU: a
+Quadro{\textregistered} M2000 with $4$Gb of memory. These video card is not aimed for calculations, but for
+visualization of data and graphics display. The other different is in the main RAM memory, having the \textit{master}
+$256$Gb of RAM. 
+
+The original OS sold with the cluster is an OEM (Original Equipament Manufacturer) Windows 7{\textregistered} \cite{windows7}. This
+OS is not supported by the whole set of software expected to be used by the research group users. The chosen
+system to replace the original Windows 7 is CentOS (Community Enterprise Operating System)\cite{centos}, which offers a plataform to natively run all
+software needed by the users.
+
+\subsection{Linux operating system}
+
+The reason for chosing \textit{CentOS} as the Linux flavor for the system is due to its characteristics and the previous
+experience of the cluster management team. CentOs is aimed to offer a free, enteprise-class, community-supported computing
+functionality. It appeared as a fork of Red Hat Enterprise Linux, which is available only trough paid subscription. The option
+for CentOs, in this context, is to have both the strong development for enterprise systems and also its gratuity.
+
+A second reason is to take advantage of previous competence of the installation and user team which already has experience
+in using Fedora Linux, a distribution fully compatible with CentOS.
+
+\subsection{Software solutions}
+
+Before chosing a software for perform a desirable task, its mandatory to have a consistent definition of the environment
+in which the system will be used. The first constraint is the network environment. It's worth noting that the cluster is
+located in the CDTN network and the restrictions and security rules enforced in the network must be followed by the system.
+
+With this is mind, the choice is to have the system - the slaves machines - in one isolated sub-network only accessed by
+the master node. The master node is part of both the sub-network and the institute's network. The sole point of access to the
+internet for any slave is the master node which, in turn, is connected to the internet using a proxy connection and a
+NAT (Network Access Translation). The topology of the cluster network is presented in Figure ~\ref{fig:esquema-cluster}.
+
 \begin{figure}[h] % t forces top and b forces bottom: can be added to h, ex. [ht]
 %  \centering\includegraphics[width=8.5cm,height=8.5cm]{images/esquema_cluster_edited_bw.png}
   \centering\includegraphics[scale=0.25]{images/esquema_cluster_edited_bw.png}
-  \caption{Captions are flush with the left.}
+  \caption{Cluster showing its network topology.}
   \label{fig:esquema-cluster}
 \end{figure}
 
-\begin{itemize}
 
-\item (Indentificação do sistema $\rightarrow$ Características: memória, CPUs, GPUs (Graphics Processing Units), cores, rede, topologia, sistema de arquivos, inserção na rede institucional)
+\begin{itemize}
 
 \item (Possíveis soluções/soluções encontradas em relação a cada característica apresentada. Por exemplo: Lustre \cite{Lustre} ou Gluster\cite{Gluster} para o sistema de arquivos?)
 
@@ -144,16 +200,7 @@ context of a small research team.
   
 \end{itemize}
 
-The system is formed by a set of eight identical blade servers each with 20 cores and equiped with
-NVIDIA GPU's M4000 CUDA\cite{CUDA} capable. The GPU's on servers, despite capable of visualization,
-are expected to be used as secondary calculation units. Also part of the sistem, the master server is aimed to calculations
-visualiation and simulations manager. The master computer has
-four network devices and a NVIDIA GPU M2000 aimed to visualization and graphics display.
-
-The original OS sold with the cluster is an OEM (Original Equipament Manufacturer) Windows 7 \cite{windows7}. This
-OS is not supported by the whole set of software expected to be used by the research group users. The chosen
-system to replace the original Windows 7 is CentOS \cite{centos}, which offers a plataform to natively run all
-software needed by the users. However, there are more than one way of setup a cluster system with respect
+However, there are more than one way of setup a cluster system with respect
 to filesystem, software execution and user access.
 
 The next paragraphs, describe different option of setup for a Linux cluster with respect to software execution.
@@ -251,7 +298,10 @@ Uma citação \cite{Henderson17}.
 
 \section*{Acknowledgments}
 The authors would like to thank FUJB for financing the cluster acquisition
-as part of the project XXXXX.
+as part of the project \textit{Desenvolvimento de novos elementos combust\'{i}veis nucleares
+  e materiais e pe\c{c}as para combust\'{i}veis nucleares}, agreement FINEP 01.07.0548.00 - Process FUJB 13.867-3.
+The authors also thank Dr. Jo\~{a}o Roberto Loureiro de Mattos for the work which made possible the acquisition
+of the cluster.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
