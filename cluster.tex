@@ -1,4 +1,4 @@
-\documentclass[twoside,a4paper,12pt,english,draft]{inac17}
+\documentclass[twoside,a4paper,12pt,english]{inac17}
 
 %INAC2017 SETUP: SET PAGE SIZE AND SET FOR USING graphicx PACKAGE.
 \usepackage{graphicx}
@@ -10,7 +10,7 @@
 \usepackage{textcomp}             % Para usar marca registrada
 
 \title{PROFESSIONAL CLUSTER MANAGEMENT BY A SMALL SCIENTIFIC TEAM: CHALLENGES, SOLUTIONS
-AND PERPECTIVES}
+AND PERSPECTIVES}
 
 %INAC2017 SETUP: SPECIFY AUTHOR NAMES, AFFILIATION, ADDRESS AND E-MAIL.
 
@@ -62,25 +62,25 @@ being scientists and its own technical staff at the same time.
 
 \section{INTRODUCTION}\label{int}
 
-Nowdays computers are indispensable tools for scientists of any field.
+Now days computers are indispensable tools for scientists of any field.
 Some areas of research heavily rely on computational power in order to solve
 complex problems by use of demanding algorithms, methods and heuristics.
 Current methods used for nuclear reactor calculations, both thermal-hydraulics
 and neutronics can be more accurate or even only applicable by using
-many cores or computers alltogheter.
+many cores or computers altogether.
 
 A computer cluster consists of set of computers connected to work together. The difference of the
 definition between a computer cluster and a computer grid is that usually grids are more
-heterogeneus and used to a differente set of problems at the same time, while a computer
+heterogeneous and used to a different set of problems at the same time, while a computer
 cluster is aimed to have each node solving the same problem.
 
 To be able to have sets of computers working together and be able to control the utilization of the system,
-it is absolutelly fundamental to have an operating system capable of offering interconnection, data sharing,
+it is absolutely fundamental to have an operating system capable of offering interconnection, data sharing,
 task schedule and user administration. The \textbf{de facto} operating system widely used in these situations
-is Linux \cite{Linux}. After chosing a suitable operating system, its mandatory to evaluate the applications to
+is Linux \cite{Linux}. After choosing a suitable operating system, its mandatory to evaluate the applications to
 be used, the level of security to be enforced and, fundamentally, the dynamics of the operation of the system.
 These factors will define the suitable solutions for different aspects of the system, ranging from data
-sharing among nodes to options to update, backup and acess the system.
+sharing among nodes to options to update, backup and access the system.
 
 
 %--------------------------------------------------------------------------------------
@@ -95,7 +95,7 @@ methods and coupled calculations, involving the two disciplines. It is also natu
 its expansion in utilization to other fields depending on its demand, performance and availability.
 
 The users of the system are mainly nuclear and mechanic engineers, scientists and graduate
-and undergraduating students. These users have different levels of knowledge of the work
+and undergraduate students. These users have different levels of knowledge of the work
 they must carry and also are unevenly skilled as system users. These differences must be taken
 in account when planning and choosing the operational characteristics of the system.
 
@@ -104,7 +104,7 @@ is a fundamental asset. Computer power is, at the very end, power of calculation
 team with demand for intensive computing is a potential user and potential client of the cluster.
 With this in mind, there is a real potential of increase of research of CDTN related to
 scientific computing. An interesting perspective of the way of research can change with the
-use of intensive scientific computing - in this case, the extreme computing - is elegantily
+use of intensive scientific computing - in this case, the extreme computing - is elegantly
 presented by Dongarra \cite{Dongarra2017}.
 
 %Teste de todas as citações disponíveis no bibtex: Wu\cite{Wu2016}, Nagaya\cite{Nagaya2015}.
@@ -141,15 +141,15 @@ its network topology.
   \label{fig:cluster}
 \end{figure}
 
-The \textit{slave} machines are Dell workstations Precision R7910. These machines are equiped
+The \textit{slave} machines are Dell workstations Precision R7910. These machines are equipped
 with Dual Intel{\textregistered} Xeon{\textregistered} processors E5-2640 operating at $2.4$GHz with
-$32$Gb of RAM each. They have 2x$10$GbE (Gigabit ethernet) and 2x$1$Gbit network connectors, which
+$32$Gb of RAM each. They have 2x$10$GbE (Gigabit Ethernet) and 2x$1$Gbit network connectors, which
 allow the use of the Gigabit network exclusively for intra-cluster communication. Each node
 has a $360$Gb solid state disk for storage.
 
-These equipaments are also installed with Nvidia{\textregistered} GPU's (Graphic Processing Units) M4000{\textregistered} with $8$Gb CUDA\cite{CUDA} capable.
+These equipments are also installed with Nvidia{\textregistered} GPU's (Graphic Processing Units) M4000{\textregistered} with $8$Gb CUDA\cite{CUDA} capable.
 The GPU's on nodes, despite capable of visualization, are expected to be used as secondary calculation units.
-The use of graphic processors for calculations is widely applied in scientific computing and these devides
+The use of graphic processors for calculations is widely applied in scientific computing and these divides
 are also called accelerators \cite{Accelerators}.
 
 The \textit{master} machine is a Dell Precision T7910, with very similar configuration of the slaves. The main
@@ -158,24 +158,24 @@ Quadro{\textregistered} M2000 with $4$Gb of memory. These video card is not aime
 visualization of data and graphics display. The other different is in the main RAM memory, having the \textit{master}
 $256$Gb of RAM. 
 
-The original OS sold with the cluster is an OEM (Original Equipament Manufacturer) Windows 7{\textregistered} \cite{windows7}. This
+The original OS sold with the cluster is an OEM (Original Equipment Manufacturer) Windows 7{\textregistered} \cite{windows7}. This
 OS is not supported by the whole set of software expected to be used by the research group users. The chosen
-system to replace the original Windows 7 is CentOS (Community Enterprise Operating System)\cite{centos}, which offers a plataform to natively run all
+system to replace the original Windows 7 is CentOS (Community Enterprise Operating System)\cite{centos}, which offers a platform to natively run all
 software needed by the users.
 
 \subsection{Linux operating system}
 
-The reason for chosing \textit{CentOS} as the Linux flavor for the system is due to its characteristics and the previous
-experience of the cluster management team. CentOs is aimed to offer a free, enteprise-class, community-supported computing
+The reason for choosing \textit{CentOS} as the Linux flavor for the system is due to its characteristics and the previous
+experience of the cluster management team. CentOS is aimed to offer a free, enterprise-class, community-supported computing
 functionality. It appeared as a fork of Red Hat Enterprise Linux, which is available only trough paid subscription. The option
-for CentOs, in this context, is to have both the strong development for enterprise systems and also its gratuity.
+for CentOS, in this context, is to have both the strong development for enterprise systems and also its gratuity.
 
 A second reason is to take advantage of previous competence of the installation and user team which already has experience
 in using Fedora Linux, a distribution fully compatible with CentOS.
 
 \subsection{Software solutions}
 
-Before chosing a software for perform a desirable task, its mandatory to have a consistent definition of the environment
+Before choosing a software for perform a desirable task, its mandatory to have a consistent definition of the environment
 in which the system will be used. The first constraint is the network environment. It's worth noting that the cluster is
 located in the CDTN network and the restrictions and security rules enforced in the network must be followed by the system.
 
@@ -191,17 +191,35 @@ NAT (Network Access Translation). The topology of the cluster network is present
   \label{fig:esquema-cluster}
 \end{figure}
 
+This topology have impacts on system maintenance. Since the slaves machines cannot access the internet, the
+master is configured to hold a mirror of packages installed in all system machines. It is scheduled to make
+updates from time to time (once a week in the current configuration) while the slaves are also scheduled to
+make their updates after the master. This approach has advantages, like decreasing the network demand since only
+one machine downloads the packages from the internet. Other advantage is in the download time, since the slaves
+use dedicated $10$GbE connections to the master which has an average download rate of $500$Kbytes/second in
+CDTN's network. The drawback is the amount of disk space needed to keep a mirror of CentOS packages locally.
+To decrease the space consumption, only packages already installed on the system - master and slaves - are
+downloaded. In the case of the installation of a new package, it must be installed in the master. After that,
+the scheduled script guarantees its availability for the slaves.
+
+\subsection{File System}
+
+A crucial element of a computer system architecture is its file system. A file system is the set of data structures and functions an operating system
+use to manage and keep track of files on disks and partitions. There is a large number of file systems being used by different operating systems\cite{linuxbook}.
+
+However, in a high performance and high demand system like a cluster, there are some desirable features not usually provided for standard computers file systems.
+For example, the ability to have many different interconnected computers reading and writing information concurrently and asynchronously. 
 
 \begin{itemize}
 
-\item (Possíveis soluções/soluções encontradas em relação a cada característica apresentada. Por exemplo: Lustre \cite{Lustre} ou Gluster\cite{Gluster} para o sistema de arquivos?)
+\item (Possíveis soluções/soluções encontradas em relação a cada característica apresentada. Por exemplo: Lustre \cite{Lustre} ou Gluster\cite{gluster} para o sistema de arquivos?)
 
 \item (Para cada solução escolhida: Por quê?)
   
 \end{itemize}
 
 However, there are more than one way of setup a cluster system with respect
-to filesystem, software execution and user access.
+to file system, software execution and user access.
 
 The next paragraphs, describe different option of setup for a Linux cluster with respect to software execution.
 
@@ -215,21 +233,21 @@ The next paragraphs, describe different option of setup for a Linux cluster with
 
 The system under consideration has powerful GPU cards installed in machines
 which have no output display. The use of GPU's to perform tasks other than graphics processing
-is nowdays widespread in many fields of research \cite{UsoDeGpus}. Modern software is written with
+is nowadays widespread in many fields of research \cite{UsoDeGpus}. Modern software is written with
 the objective of taking advantage of this ``extra'' processing capabilities and studies of software
 engineering on parallelization of sequential algorithms to be applied in GPU's are a significant
-nowdays.
+nowadays.
 
-In order to make the use of GPU's for general processing less dificult, libraries, compilers and
-frameworks were developed. At the beggining these tools were developed and deployed by graphics cards
-manufacturers. The pionner in offering both GPU's cards capable of general use is NVIDIA, which,
-without surprise, is also pionner in making a available a full framework for its GPU programming.
+In order to make the use of GPU's for general processing less difficult, libraries, compilers and
+frameworks were developed. At the beginning these tools were developed and deployed by graphics cards
+manufacturers. The pioneer in offering both GPU's cards capable of general use is NVIDIA, which,
+without surprise, is also pioneer in making a available a full framework for its GPU programming.
 This tool is called CUDA (Compute Unified Device Architecture) and is a parallel computing platform
 and application programming interface (API) model.
 
 However, with the increase of the use the cards, developers start to demand some
-standardization ir order to be able experiment new algorithms in different cards. Today, the
-reference framework for development for heterogeneus platforms is \textit{OpenCL} \cite{OpenCL}.
+standardization in order to be able experiment new algorithms in different cards. Today, the
+reference framework for development for heterogeneous platforms is \textit{OpenCL} \cite{OpenCL}.
 
 --- Como funciona o OpenCL
 
@@ -238,7 +256,7 @@ software developed for NVIDIA graphic cards and also OpenCL libraries to
 be used by software written to make use of the programming genericity
 provided by OpenCL. As the time of writing, the libraries were installed
 in only one node of the cluster and tests are being envisaged to check
-compatibility of both framewoks.
+compatibility of both frameworks.
 
 \section{RESULTS AND ANALYSIS}
 
@@ -283,18 +301,21 @@ When importing figures or any graphical image please verify two things:
 
 
 
-Tables, like Table~\ref{table_1}, are numbered in Arabic numerals, with the caption centered above the table, in {\bf boldface}.  Doublele-space before and after the table.
+Tables, like Table~\ref{table_1}, are numbered in Arabic numerals, with the caption centered above the table, in {\bf boldface}.  Double-space before and after the table.
 
 %------------------------------------------------------------------------------
 
-\section{CONCLUSIONS}
+\section{CONCLUSIONS AND PERSPECTIVES}
 
 (O que está bom, o que está ruim na atual instalação)
 (Trabalhos futuros: pra onde ir (operação), possíveis mudanças)
 
-Uma cita\c{c}\~{a}o \cite{Henderson17}.
+%Uma cita\c{c}\~{a}o \cite{Henderson17}.
+
 
 %------------------------------------------------------------------------------
+
+
 
 \section*{Acknowledgments}
 The authors would like to thank FUJB for financing the cluster acquisition
@@ -305,7 +326,32 @@ of the cluster.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%\begin{thebibliography}{99} %99 é o número máximo que o thebibliography permite. Numero de referencias que aparecerão.
+\begin{thebibliography}{99} %99 é o número máximo que o thebibliography permite. Numero de referencias que aparecerão.
+
+\bibitem{linuxbook} Wirzenius and Lars, \textit{The  Linux System Administrator's Guide}, iUniverse incorporated (2000).
+
+  % author = {Wirzenius, Lars},
+% title = {The  Linux System Administrator's Guide},
+% year = {2000},
+% isbn = {0595137636},
+% publisher = {iUniverse, Incorporated},
+%} 
+
+\bibitem{gluster} Alex Davies and Alessandro Orsaria, ``Scale out with GlusterFS'', \textit{The Linux Journal}, \textbf{2013}, (2013).
+% journal = {Linux J.},
+% issue_date = {November 2013},
+% volume = {2013},
+% number = {235},
+% month = nov,
+% year = {2013},
+% issn = {1075-3583},
+% articleno = {1},
+% url = {http://dl.acm.org/citation.cfm?id=2555789.2555790},
+% acmid = {2555790},
+% publisher = {Belltown Media},
+% address = {Houston, TX},
+%} 
+
 
 %\bibitem{article} B. Author(s), ``Title", \textit{Journal Name in Italic}, \textbf{Volume in Bold}, pp. 34--89, (19xx).
 
@@ -315,13 +361,13 @@ of the cluster.
 
 %\bibitem{website} ``Spallation Neutron Source: The next-generation neutron-scattering facility for the United States", \verb#http://www.sns.gov/documentation/sns_brochure.pdf# (2002).
 
-%\end{thebibliography}
+\end{thebibliography}
 
 % ---------------------------------------------------------
 % Minha bibliografia usando arquivo externo
 
-\bibliographystyle{unsrt}
-\bibliography{bibli}
+%\bibliographystyle{unsrt}
+%\bibliography{bibli}
 
 
 \end{document}
