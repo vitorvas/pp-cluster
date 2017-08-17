@@ -127,6 +127,28 @@ context of a small research team.
 
 \section{METHODS AND PROCEDURES}
 
+\subsection{Local Structure}
+
+In order to start the operation of cluster system, there are some considerations the must
+be taken in account. The physical location of the system is fundamental for safe, secure and
+reliable operation.
+
+From the security point of view, the cluster is located at a locked room with limited access to
+the personal related to manage and install the system. The building in which the cluster is located
+is part of the entire institute which is fenced and guarded by armed security personal.
+
+The meaning of safety in this text is related to both personal safety and also system safety. Personal
+safety is not an issue since to special conditions are necessary to operated and use the cluster other
+than use an ordinary desktop computer. The safety of the system consist in guarantee environmental conditions
+which are not harmful for the hardware. In order to guarantee a proper operational temperature, two dedicated
+air conditioning systems work in parallel. These equipments are dimensioned to be able to maintain alone
+the working temperature at the cluster room.
+
+Related to reliability, the system is plugged to a remotely configurable no-break of 20KvA. This equipment
+can provide power for more than 10 minutes 
+
+
+
 \subsection{Original Hardware and Software}
 
 The so-called cluster system is formed by a set of identical high performance computers -
@@ -163,7 +185,7 @@ OS is not supported by the whole set of software expected to be used by the rese
 system to replace the original Windows 7 is CentOS (Community Enterprise Operating System)\cite{centos}, which offers a platform to natively run all
 software needed by the users.
 
-\subsection{Linux operating system}
+\subsection{Linux Operating System}
 
 The reason for choosing \textit{CentOS} as the Linux flavor for the system is due to its characteristics and the previous
 experience of the cluster management team. CentOS is aimed to offer a free, enterprise-class, community-supported computing
@@ -173,7 +195,7 @@ for CentOS, in this context, is to have both the strong development for enterpri
 A second reason is to take advantage of previous competence of the installation and user team which already has experience
 in using Fedora Linux, a distribution fully compatible with CentOS.
 
-\subsection{Software solutions}
+\subsection{Software Solutions}
 
 Before choosing a software for perform a desirable task, its mandatory to have a consistent definition of the environment
 in which the system will be used. The first constraint is the network environment. It's worth noting that the cluster is
@@ -230,7 +252,21 @@ The next paragraphs, describe different option of setup for a Linux cluster with
 \item SO virtualization
 \end{itemize}
 
-\subsection{Making use of graphics processors}
+\subsection{Visualization}
+
+The presence of powerful GPU devices in each node of the cluster make possible their use for calculations. However,
+this hardware can be used for its natural task: visualization. At a first glance, this can sound natural and
+straightforward. However, there are trick details in using different nodes to render and output one image. The first one
+is the ability to gather scattered information in order to produce the desirable output in one display.
+
+Gladly, there is software aimed to data visualization which address the presented issue. Developed by Kitware\cite{kitware},
+Paraview\cite{paraview} is an open-source multiple-platform application for scientific visualization. Its design considers
+the use of a client-server architecture in order to deal with data-sets scattered among many nodes in a multiprocessing
+system. 
+
+
+\subsection{Graphics Processors: Extended Use}
+%\subsection{Extending the Use of graphics processors}
 
 The system under consideration has powerful GPU cards installed in machines
 which have no output display. The use of GPU's to perform tasks other than graphics processing
@@ -243,8 +279,10 @@ In order to make the use of GPU's for general processing less difficult, librari
 frameworks were developed. At the beginning these tools were developed and deployed by graphics cards
 manufacturers. The pioneer in offering both GPU's cards capable of general use is NVIDIA, which,
 without surprise, is also pioneer in making a available a full framework for its GPU programming.
-This tool is called CUDA (Compute Unified Device Architecture) and is a parallel computing platform
+This tool is called CUDA (Compute Unified Device Architecture) and is a ``de facto'' parallel computing platform
 and application programming interface (API) model.
+
+CUDA can be used with a set of libraries for ...........
 
 However, with the increase of the use the cards, developers start to demand some
 standardization in order to be able experiment new algorithms in different cards. Today, the
@@ -259,8 +297,13 @@ provided by OpenCL. As the time of writing, the libraries were installed
 in only one node of the cluster and tests are being envisaged to check
 compatibility of both frameworks.
 
+
+
+
+
 \section{RESULTS AND ANALYSIS}
 
+The current status of the system is that is it not yet operational.
 \begin{itemize}
 
 \item (Situação atual do sistema - no momento de finalizer o paper)
