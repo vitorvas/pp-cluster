@@ -77,7 +77,7 @@ cluster is aimed to have each node solving the same problem.
 To be able to have sets of computers working together and be able to control the utilization of the system,
 it is absolutely fundamental to have an operating system capable of offering interconnection, data sharing,
 task schedule and user administration. The \textbf{de facto} operating system widely used in these situations
-is Linux \cite{Linux}. After choosing a suitable operating system, its mandatory to evaluate the applications to
+is Linux \cite{linux}. After choosing a suitable operating system, its mandatory to evaluate the applications to
 be used, the level of security to be enforced and, fundamentally, the dynamics of the operation of the system.
 These factors will define the suitable solutions for different aspects of the system, ranging from data
 sharing among nodes to options to update, backup and access the system.
@@ -90,8 +90,8 @@ sharing among nodes to options to update, backup and access the system.
 As aforementioned, the cluster presented in this paper is aimed to scientific computing.
 Since the expression scientific computing has many meanings, depending on the context, a
 clarification is necessary. This cluster will be utilized to run computational fluid dynamics
-(CFD) simulations, neutronics simulations - both using deterministic and Monte Carlo \cite{MC}
-methods and coupled calculations, involving the two disciplines. It is also natural to predict
+(CFD) simulations, neutronics simulations - both using deterministic and Monte Carlo methods
+and coupled calculations, involving the two disciplines. It is also natural to predict
 its expansion in utilization to other fields depending on its demand, performance and availability.
 
 The users of the system are mainly nuclear and mechanic engineers, scientists and graduate
@@ -171,7 +171,7 @@ has a $360$Gb solid state disk for storage.
 These equipments are also installed with Nvidia{\textregistered} GPU's (Graphic Processing Units) M4000{\textregistered} with $8$Gb CUDA\cite{CUDA} capable.
 The GPU's on nodes, despite capable of visualization, are expected to be used as secondary calculation units.
 The use of graphic processors for calculations is widely applied in scientific computing and these divides
-are also called accelerators \cite{Accelerators}.
+are also called accelerators \cite{accelerators}.
 
 The \textit{master} machine is a Dell Precision T7910, with very similar configuration of the slaves. The main
 differences rely on the graphics processor unit, equipped with another Nvidia{\textregistered} GPU: a
@@ -185,7 +185,7 @@ of the distributed file system.
 The original OS sold with the cluster is an OEM (Original Equipment Manufacturer) Windows 7{\textregistered} \cite{windows7}. This
 OS is not supported by the whole set of software expected to be used by the research group users. The chosen
 system to replace the original Windows 7 is CentOS (Community Enterprise Operating System)\cite{centos}, which offers a platform to natively run all
-software needed by the users.
+software needed by the users. Details on possible options for software compatibility and operating system independence will be given on subsection \ref{sub:ssol}
 
 \subsection{Linux Operating System}
 
@@ -197,13 +197,18 @@ for CentOS, in this context, is to have both the strong development for enterpri
 A second reason is to take advantage of previous competence of the installation and user team which already has experience
 in using Fedora Linux, a distribution fully compatible with CentOS.
 
+That said, all the software currently in use by the Thermal-Hydraulics Laboratory team are compatible with CentOS. This
+makes this flavor of Linux the straighforward choice for the cluster system. It is also worth noting that the use of
+free and open-source software has a social meaning in promoting the share of knowledge.
+
 \subsection{Software Solutions}
+\label{sub:ssol}
 
 Before choosing a software for perform a desirable task, its mandatory to have a consistent definition of the environment
 in which the system will be used. The first constraint is the network environment. It's worth noting that the cluster is
 located in the CDTN network and the restrictions and security rules enforced in the network must be followed by the system.
 
-With this is mind, the choice is to have the system - the slaves machines - in one isolated sub-network only accessed by
+With this is mind, the choice is to have the system - the slave machines - in one isolated sub-network only accessed by
 the master node. The master node is part of both the sub-network and the institute's network. The sole point of access to the
 internet for any slave is the master node which, in turn, is connected to the internet using a proxy connection and a
 NAT (Network Access Translation). The topology of the cluster network is presented in Figure ~\ref{fig:esquema-cluster}.
@@ -215,13 +220,12 @@ NAT (Network Access Translation). The topology of the cluster network is present
   \label{fig:esquema-cluster}
 \end{figure}
 
-This topology have impacts on system maintenance. Since the slaves machines cannot access the internet, the
-master is configured to hold a mirror of packages installed in all system machines. It is scheduled to make
-updates from time to time (once a week in the current configuration) while the slaves are also scheduled to
-make their updates after the master. This approach has advantages, like decreasing the network demand since only
-one machine downloads the packages from the internet. Other advantage is in the download time, since the slaves
-use dedicated $10$GbE connections to the master which has an average download rate of $500$Kbytes/second in
-CDTN's network. The drawback is the amount of disk space needed to keep a mirror of CentOS packages locally.
+The chosen network topology have impacts on system maintenance. Since the slave machines cannot access the internet, the
+master is configured to hold a mirror of packages installed in all system machines. The average download rate for the master node is of $500$Kbytes/second in
+CDTN's network. The master is scheduled to make updates from time to time (once a week in the current configuration) while the slaves are also scheduled to
+make their updates after the master and from it. This approach has advantages, like decreasing internet bandwitch demand since only
+one machine downloads updated packages from the internet. Other advantage is in downloading time, since the slaves
+use dedicated $10$GbE connections to the master which provides the necessary packages. The drawback is the amount of disk space needed to keep a mirror of CentOS packages locally.
 To decrease the space consumption, only packages already installed on the system - master and slaves - are
 downloaded. In the case of the installation of a new package, it must be installed in the master. After that,
 the scheduled script guarantees its availability for the slaves.
@@ -235,24 +239,28 @@ However, in a high performance and high demand system like a cluster, there are 
 For example, the ability to have many different interconnected computers reading and writing information concurrently and asynchronously. These kind of feature
 is provided by a specialized file system, usually called distributed file system\cite{hal}.
 
-\begin{itemize}
+The chosen solution for distributed file system management is the GlusterFS\cite{gluster}. GlusterFS is an open source, distributed file system and has
+a unique no-metadata server architecture. Most distributed file systems use a metadata server, which has information on where to retrieve data which is
+physically scattered among different disks. This architecture imposes a dependence on the metadata server. If it goes down, the system becomes inacessible.
+GlusterFS keeps this information as distributed hashes, avoiding the dependence on one server or node.
 
-\item (Possíveis soluções/soluções encontradas em relação a cada característica apresentada. Por exemplo: Lustre \cite{Lustre} ou Gluster\cite{gluster} para o sistema de arquivos?)
+The control of Gluster is transparent for users, providing a level of abstraction with no impact on how users of the system operate with their files. This
+abstraction also has no impact in system management. An envisaged quota control of user accounts can work without any problem above the GlusterFS file system.
 
-\item (Para cada solução escolhida: Por quê?)
-  
-\end{itemize}
+Another option under consideration is the more robust Lustre file system\cite{lustre}. Lustre is a parallel distributed file system widely used in large-scale
+cluster systems. Despite its reliability and recognized performance (high I/O troughput: more than a terabyte per second), it is not the first choice due to its higher operating dificulties compared to GlusterFS.
+The size of the presented cluster is also small by Lustre standards. However, it remains as a second option in the case of GlusterFS does not perform as expected. 
 
 However, there are more than one way of setup a cluster system with respect
 to file system, software execution and user access.
 
-The next paragraphs, describe different option of setup for a Linux cluster with respect to software execution.
+The next sub-sections describe alternatives to the use of a direct Linux operating system. They are not current used but remain as options
+in the case of, for example, software incompatibility. 
 
-\begin{itemize}
-\item Direct OS installation
-\item Use of dockers
-\item SO virtualization
-\end{itemize}
+\subsubsection{Dockers}
+
+
+\subsubsection{Operating System Virtualization}
 
 \subsection{Visualization}
 
@@ -316,7 +324,7 @@ The current status of the system is that is it not yet operational.
 %------------------------------------------------------------------------------
 \subsubsection{Sub-subsection level and lower: only first character uppercase}
 
-Figures and tables should appear as closely as possible to where they are first cited, e.g. Fig.~\ref{esquema-cluster}, in the text.  Figures are numbered in Arabic numerals, with the caption centered below the figure, in boldface. Double-space before the figure, and after the figure caption.
+Figures and tables should appear as closely as possible to where they are first cited, e.g. Fig.~\ref{fig:esquema-cluster}, in the text.  Figures are numbered in Arabic numerals, with the caption centered below the figure, in boldface. Double-space before the figure, and after the figure caption.
 
 
 \newcommand{\cc}{\centering}
@@ -378,7 +386,13 @@ of the cluster.
 
 \begin{thebibliography}{99} %99 é o número máximo que o thebibliography permite. Numero de referencias que aparecerão.
 
-\bibitem{linuxbook} Wirzenius and Lars, \textit{The  Linux System Administrator's Guide}, iUniverse incorporated (2000).
+\bibitem{linux} ``The Linux Documentation Project'', \\\verb#http://www.tldp.org/LDP/intro-linux/html/chap_01.html# (2017).
+
+\bibitem{Dongarra2017} John Dongarra et. al., ``With Extreme Computing, the Rules Have Changed'', \textit{Computing in Science Engineering}, \textbf{19}, pp. 52--62, (2017).
+
+\bibitem{accelerators} ``What is GPU-accelerated computing?'', \\\verb#http://www.nvidia.com/object/what-is-gpu-computing.html# (2017).
+
+\bibitem{windows7} Jorge Orchilles, \textit{Microsoft Windows 7 Administrator's Reference}, Syngress, Boston USA (2010).
 
   % author = {Wirzenius, Lars},
 % title = {The  Linux System Administrator's Guide},
@@ -387,8 +401,15 @@ of the cluster.
 % publisher = {iUniverse, Incorporated},
 %} 
 
+  % Centos
+  
+\bibitem{linuxbook} Wirzenius and Lars, \textit{The  Linux System Administrator's Guide}, iUniverse incorporated (2000).
+
+\bibitem{hal} Benjamin Depardon, Ga\"{e}l Le Mahec and Cyril S\'{e}guin, ``Analysis of Six Distributed File Systems'', Research Report, pp. 44, (2013).
+  
 \bibitem{gluster} Alex Davies and Alessandro Orsaria, ``Scale out with GlusterFS'', \textit{The Linux Journal}, \textbf{2013}, (2013).
-% journal = {Linux J.},
+
+  % journal = {Linux J.},
 % issue_date = {November 2013},
 % volume = {2013},
 % number = {235},
@@ -401,10 +422,13 @@ of the cluster.
 % publisher = {Belltown Media},
 % address = {Houston, TX},
 %} 
-\bibitem{hal} Benjamin Depardon, Ga\"{e}l Le Mahec and Cyril S\'{e}guin, ``Analysis of Six Distributed File Systems'', Research Report, pp. 44, (2013).
+
 
 \bibitem{CUDA} John Nickolls, Ian Buck, Michael Garland and Kevin Skadron, ``Scalable Parallel Programming with CUDA'', \textit{Queue - GPU Computing}, \textbf{6}, pp. 40--53, (2008).
 
+
+
+  
 %\bibitem{article} B. Author(s), ``Title", \textit{Journal Name in Italic}, \textbf{Volume in Bold}, pp. 34--89, (19xx).
 
 %\bibitem{proceeding} C. D. Author(s), ``Article Title", \textit{Proceeding of Meeting in Italic}, Location, Dates of Meeting, Vol. n, pp. 134--156, (19xx).
