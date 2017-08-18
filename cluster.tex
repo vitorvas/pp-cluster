@@ -129,35 +129,34 @@ context of a small research team.
 
 \subsection{Local Structure}
 
-In order to start the operation of cluster system, there are some considerations the must
+In order to start the operation of a cluster system, there are some considerations the must
 be taken in account. The physical location of the system is fundamental for safe, secure and
 reliable operation.
 
 From the security point of view, the cluster is located at a locked room with limited access to
 the personal related to manage and install the system. The building in which the cluster is located
-is part of the entire institute which is fenced and guarded by armed security personal.
+is part of the entire institute which is fenced and guarded by armed security personal, what makes
+unautorized access or intrusion a minor issue.
 
-The meaning of safety in this text is related to both personal safety and also system safety. Personal
-safety is not an issue since to special conditions are necessary to operated and use the cluster other
+The meaning of safety in this text is related to only to system safety. Personal
+safety is not an issue since no special conditions are necessary to operated and use the cluster other
 than use an ordinary desktop computer. The safety of the system consist in guarantee environmental conditions
-which are not harmful for the hardware. In order to guarantee a proper operational temperature, two dedicated
-air conditioning systems work in parallel. These equipments are dimensioned to be able to maintain alone
-the working temperature at the cluster room.
+which are not harmful to the hardware. In order to guarantee a proper operational temperature, two dedicated
+air conditioning devices work in parallel. These equipments are dimensioned to be able to maintain, each one alone,
+the working temperature at the cluster room considering the system at full operation, i.e. all nodes using all cores
+and GPU's.
 
-Related to reliability, the system is plugged to a remotely configurable no-break of 20KvA. This equipment
-can provide power for more than 10 minutes 
+Related to reliability, the system is plugged to a remotely configurable no-break of 40KvA. This equipment
+can provide power for the whole cluster for more than 10 minutes, time sufficent to be able to save the state of current jobs
+for all users. The implementation of shutdown scripts related to no-break signais is still to be defined.
 
-
-
-\subsection{Original Hardware and Software}
+\subsection{Hardware and Software}
 
 The so-called cluster system is formed by a set of identical high performance computers -
-total number of eight machines - with a master unit with slightly different configuration.
-Figure ~\ref{fig:cluster} presents a schematic representation of the system and
-its network topology.
+total number of eight machines - plus a master unit with slightly different configuration.
+Figure~\ref{fig:cluster} presents a schematic representation of the system.
 
 \begin{figure}[h] % t forces top and b forces bottom: can be added to h, ex. [ht]
-%  \centering\includegraphics[width=8.5cm,height=8.5cm]{images/esquema_cluster_edited_bw.png}
   \centering\includegraphics[scale=0.7]{images/cluster-topologico.png}
   \caption{Cluster hardware.}
   \label{fig:cluster}
@@ -179,6 +178,9 @@ differences rely on the graphics processor unit, equipped with another Nvidia{\t
 Quadro{\textregistered} M2000 with $4$Gb of memory. These video card is not aimed for calculations, but for
 visualization of data and graphics display. The other different is in the main RAM memory, having the \textit{master}
 $256$Gb of RAM. 
+
+A set of three hard-disks of $500$Gb was installed to the master node, making an extra $1.5$Tb to be used as part
+of the distributed file system.
 
 The original OS sold with the cluster is an OEM (Original Equipment Manufacturer) Windows 7{\textregistered} \cite{windows7}. This
 OS is not supported by the whole set of software expected to be used by the research group users. The chosen
@@ -353,6 +355,10 @@ Tables, like Table~\ref{table_1}, are numbered in Arabic numerals, with the capt
 
 (O que está bom, o que está ruim na atual instalação)
 (Trabalhos futuros: pra onde ir (operação), possíveis mudanças)
+
+There are many ongoing tasks and even more tasks still to be started. To mention a few, one
+interesting task related to the reliability and data management is the implementation of
+a automatic process of shutdown on loss of power supply.
 
 %Uma cita\c{c}\~{a}o \cite{Henderson17}.
 
