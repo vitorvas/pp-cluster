@@ -243,8 +243,10 @@ is facilitated by CentOS packages manager \verb yum \cite{yum}
 However, there are more than one way of setup a cluster system with respect
 to file system, software execution and user access.
 
-The next sub-sections describe alternatives to the use of a direct Linux operating system. They are not current used but remain as options
-in the case of, for example, software incompatibility. 
+The next sub-sections describe alternatives to the use of a direct installation of CentOS version of Linux operating system.
+They are not currently in use in the describe cluster system, but are presented in this paper as they remain as alternatives
+or complementary options for specific cases. For example, the use of a software which is incompatible with another one already
+in use.
 
 \subsubsection{Docker}
 \label{ssub:dock}
@@ -267,6 +269,15 @@ of the use of Docker in the high demand computational field of research of bioin
 \subsubsection{Operating System Virtualization}
 \label{ssub:virt}
 
+Virtualization is the creation and use of a version of (usually) an operating system inside another operating system. Virtualization
+is a technique widely used for cloud computing, where users send their jobs to be running in non-local computers usually provided
+as services. Virtualization makes possible to have many different machines installed following the needs of the users without the
+problem of machines management. The main drawback of its use is that virtualization is costly in terms of performance, since operating system
+resources that otherwise would be shared by many processes must be kept individualy for each virtual machine.
+
+There are solid studies on the use of virtualization as service for scientific research\cite{vir1,vir2}. In the present case, virtualization
+is seen as a last resource for running essential software in the cases where the usual operating system or Docker do not work.
+
 \subsection{File System}
 
 A crucial element of a computer system architecture is its file system. A file system is the set of data structures and functions an operating system
@@ -285,8 +296,12 @@ The control of Gluster is transparent for users, providing a level of abstractio
 abstraction also has no impact in system management. An envisaged quota control of user accounts can work without any problem above the GlusterFS file system.
 
 Another option under consideration is the more robust Lustre file system\cite{lustre}. Lustre is a parallel distributed file system widely used in large-scale
-cluster systems. Despite its reliability and recognized performance (high I/O troughput: more than a terabyte per second), it is not the first choice due to its higher operating dificulties compared to GlusterFS.
-The size of the presented cluster is also small by Lustre standards. However, it remains as a second option in the case of GlusterFS does not perform as expected. 
+cluster systems. Despite its reliability and recognized performance (high I/O troughput: more than a terabyte per second), it is not the first choice
+for the distributed file system for the presented cluster due to its higher learning curve for installation and administration compared to GlusterFS.
+It is important to keep in mind that as the cluster management personal is limited and formed by non-experienced system
+administrators thus simpler systems are favored as long as they meet the operating criteria. The size of the presented cluster is also small by Lustre standards.
+
+With that in mind, Lustre remains as a second option in the case of GlusterFS does not perform as expected. 
 
 
 \subsection{Visualization}
@@ -437,12 +452,18 @@ of the cluster.
 
 \bibitem{Tommaso} Paolo Di Tommaso et al. "The Impact of Docker Containers on the Performance of Genomic Pipelines" \textit{PeerJ}, \textbf{3}, (2015).
 
+  % Virtualizacao (9 e 10)
+\bibitem{vir1} A. J. Younge and G. C. Fox, "Advanced Virtualization Techniques for High Performance Cloud Cyberinfrastructure", \textit{2014 14th IEEE/ACM International Symposium on Cluster, Cloud and Grid Computing}, Chicago, IL, USA, pp. 583--586, May, (2014).
+  
+\bibitem{vir2} I. Sadooghi, J. H. Martin, T. Li, K. Brandstatter, K. Maheshwari, T. P. P. de Lacerda Ruivo, G. Garzoglio, S. Timm, Y. Zhao and I. Raicu, "Understanding the Performance and Potential of Cloud Computing for Scientific Applications", \textit{IEEE Transactions on Cloud Computing}, \textbf{5}, pp. 358--371, (2017).
+  
 \bibitem{linuxbook} Wirzenius and Lars, \textit{The  Linux System Administrator's Guide}, iUniverse incorporated (2000).
 
 \bibitem{hal} Benjamin Depardon, Ga\"{e}l Le Mahec and Cyril S\'{e}guin, "Analysis of Six Distributed File Systems", Research Report, pp. 44, (2013).
   
 \bibitem{gluster} Alex Davies and Alessandro Orsaria, "Scale out with GlusterFS", \textit{The Linux Journal}, \textbf{2013}, (2013).
 
+  \bibitem{lustre} "Lustre* Software Release 2.x: Operations Manual", Editor: Intel Corporation, (2017).
   % journal = {Linux J.},
 % issue_date = {November 2013},
 % volume = {2013},
