@@ -62,7 +62,7 @@ being scientists and its own technical staff at the same time.
 
 \section{INTRODUCTION}\label{int}
 
-Now days computers are indispensable tools for scientists of any field.
+Nowadays computers are indispensable tools for scientists of any field.
 Some areas of research heavily rely on computational power in order to solve
 complex problems by use of demanding algorithms, methods and heuristics.
 Current methods used for nuclear reactor calculations, both thermal-hydraulics
@@ -77,7 +77,7 @@ cluster is aimed to have each node solving the same problem.
 To be able to have sets of computers working together and be able to control the utilization of the system,
 it is absolutely fundamental to have an operating system capable of offering interconnection, data sharing,
 task schedule and user administration. The \textbf{de facto} operating system widely used in these situations
-is Linux \cite{linux}. After choosing a suitable operating system, its mandatory to evaluate the applications to
+is Linux\cite{linux}. After choosing a suitable operating system, its mandatory to evaluate the applications to
 be used, the level of security to be enforced and, fundamentally, the dynamics of the operation of the system.
 These factors will define the suitable solutions for different aspects of the system, ranging from data
 sharing among nodes to options to update, backup and access the system.
@@ -105,7 +105,7 @@ team with demand for intensive computing is a potential user and potential clien
 With this in mind, there is a real potential of increase of research of CDTN related to
 scientific computing. An interesting perspective of the way of research can change with the
 use of intensive scientific computing - in this case, the extreme computing - is elegantly
-presented by Dongarra \cite{Dongarra2017}.
+presented by Dongarra\cite{Dongarra2017}.
 
 %Teste de todas as citações disponíveis no bibtex: Wu\cite{Wu2016}, Nagaya\cite{Nagaya2015}.
 
@@ -171,7 +171,7 @@ has a $360$Gb solid state disk for storage.
 These equipments are also installed with Nvidia{\textregistered} GPU's (Graphic Processing Units) M4000{\textregistered} with $8$Gb CUDA\cite{CUDA} capable.
 The GPU's on nodes, despite capable of visualization, are expected to be used as secondary calculation units.
 The use of graphic processors for calculations is widely applied in scientific computing and these divides
-are also called accelerators \cite{accelerators}.
+are also called accelerators\cite{accelerators}.
 
 The \textit{master} machine is a Dell Precision T7910, with very similar configuration of the slaves. The main
 differences rely on the graphics processor unit, equipped with another Nvidia{\textregistered} GPU: a
@@ -182,10 +182,15 @@ $256$Gb of RAM.
 A set of three hard-disks of $500$Gb was installed to the master node, making an extra $1.5$Tb to be used as part
 of the distributed file system.
 
-The original OS sold with the cluster is an OEM (Original Equipment Manufacturer) Windows 7{\textregistered} \cite{windows7}. This
+The original OS sold with the cluster is an OEM (Original Equipment Manufacturer) Windows 7{\textregistered}\cite{windows7}. This
 OS is not supported by the whole set of software expected to be used by the research group users. The chosen
 system to replace the original Windows 7 is CentOS (Community Enterprise Operating System)\cite{centos}, which offers a platform to natively run all
-software needed by the users. Details on possible options for software compatibility and operating system independence will be given on subsection \ref{sub:ssol}
+software needed by the users. CentOS is a community driven free-software effort which focuses in provide a robust open source ecosystem.
+Its typical users are organisations or individuals which have professional oriented hardware but do not need strong commercial support
+in order to achieve succesful operation. It is fully compatible with Red Hat Enterprise Linux and in full compliance with Red Hat's
+redistribution requirements.
+
+Details on possible options for software compatibility and operating system independence will be given on subsections \ref{ssub:dock} and \ref{ssub:virt}
 
 \subsection{Linux Operating System}
 
@@ -208,10 +213,10 @@ Before choosing a software for perform a desirable task, its mandatory to have a
 in which the system will be used. The first constraint is the network environment. It's worth noting that the cluster is
 located in the CDTN network and the restrictions and security rules enforced in the network must be followed by the system.
 
-With this is mind, the choice is to have the system - the slave machines - in one isolated sub-network only accessed by
+With this is mind, the choice is to have the main system - interchangeably called slave machines or cluster nodes - in one isolated sub-network only accessed by
 the master node. The master node is part of both the sub-network and the institute's network. The sole point of access to the
 internet for any slave is the master node which, in turn, is connected to the internet using a proxy connection and a
-NAT (Network Access Translation). The topology of the cluster network is presented in Figure ~\ref{fig:esquema-cluster}.
+NAT (Network Access Translation). The topology of the cluster network is presented in Figure~\ref{fig:esquema-cluster}.
 
 \begin{figure}[h] % t forces top and b forces bottom: can be added to h, ex. [ht]
 %  \centering\includegraphics[width=8.5cm,height=8.5cm]{images/esquema_cluster_edited_bw.png}
@@ -221,14 +226,46 @@ NAT (Network Access Translation). The topology of the cluster network is present
 \end{figure}
 
 The chosen network topology have impacts on system maintenance. Since the slave machines cannot access the internet, the
-master is configured to hold a mirror of packages installed in all system machines. The average download rate for the master node is of $500$Kbytes/second in
-CDTN's network. The master is scheduled to make updates from time to time (once a week in the current configuration) while the slaves are also scheduled to
-make their updates after the master and from it. This approach has advantages, like decreasing internet bandwitch demand since only
+master is configured to hold a mirror of packages installed in all system machines. The average download rate for main CentOS package provider site at the
+master node is of $500$Kbytes/second in trough the proxy in CDTN's network.
+With this in mind, the master machine is scheduled to make updates from time to time (once a week in the current configuration) while the slaves are also scheduled to
+make their updates after the master and from master's local repository. This approach has advantages, like decreasing internet bandwitch demand since only
 one machine downloads updated packages from the internet. Other advantage is in downloading time, since the slaves
-use dedicated $10$GbE connections to the master which provides the necessary packages. The drawback is the amount of disk space needed to keep a mirror of CentOS packages locally.
-To decrease the space consumption, only packages already installed on the system - master and slaves - are
-downloaded. In the case of the installation of a new package, it must be installed in the master. After that,
-the scheduled script guarantees its availability for the slaves.
+use dedicated $10$GbE connections to the master which provides the necessary packages.
+
+As expected, this approach has its drawback. A certain ammount of disk space is needed to keep a mirror of CentOS packages locally.
+To decrease this space consumption, only packages already installed on the system - master and slaves - are
+downloaded and kept in the local repository. In the case of the installation of a new package not yet present in the repository,
+it must be installed in the master. After that, the scheduled script guarantees its availability for the slaves. In the uncommon
+situation where a package is necessary for the nodes but not for the master, it must be manually added to the repository. This task
+is facilitated by CentOS packages manager \verb yum \cite{yum}
+
+However, there are more than one way of setup a cluster system with respect
+to file system, software execution and user access.
+
+The next sub-sections describe alternatives to the use of a direct Linux operating system. They are not current used but remain as options
+in the case of, for example, software incompatibility. 
+
+\subsubsection{Docker}
+\label{ssub:dock}
+
+Docker is a software technology providing containers. A container can be seen as an isolated user space provided by the operating system
+kernel. Docker technology works providing an additional level of abstraction and automation at operating system level. In other words,
+docker provides a way of programs run without direct communication with the operating system. This makes programs unware of details of the
+system and less dependent on specific configurations of the operating system. Docker provides the middleware which controls the interaction
+between programs and operating system.
+
+Moreover, Docker allows applications to be efficiently distributed and executed in a portable manner. The same application can be easily
+run in a wide range of computer platforms\cite{Boettiger}.
+
+From the point of view of program developers, distribute their application as a Docker package avoids software installation and
+setup procedures in the host machine. The toolchain complexity is performed only once in the Docker package. The system administrators,
+on the other hand, only have to install Docker and its packages. No extra work to make applications run. A valuable and detailed evaluation
+of the use of Docker in the high demand computational field of research of bioinformatics is presented by Tommaso et al.\cite{Tommaso}.
+
+
+\subsubsection{Operating System Virtualization}
+\label{ssub:virt}
 
 \subsection{File System}
 
@@ -251,16 +288,6 @@ Another option under consideration is the more robust Lustre file system\cite{lu
 cluster systems. Despite its reliability and recognized performance (high I/O troughput: more than a terabyte per second), it is not the first choice due to its higher operating dificulties compared to GlusterFS.
 The size of the presented cluster is also small by Lustre standards. However, it remains as a second option in the case of GlusterFS does not perform as expected. 
 
-However, there are more than one way of setup a cluster system with respect
-to file system, software execution and user access.
-
-The next sub-sections describe alternatives to the use of a direct Linux operating system. They are not current used but remain as options
-in the case of, for example, software incompatibility. 
-
-\subsubsection{Dockers}
-
-
-\subsubsection{Operating System Virtualization}
 
 \subsection{Visualization}
 
@@ -296,7 +323,7 @@ CUDA can be used with a set of libraries for ...........
 
 However, with the increase of the use the cards, developers start to demand some
 standardization in order to be able experiment new algorithms in different cards. Today, the
-reference framework for development for heterogeneous platforms is \textit{OpenCL} \cite{OpenCL}.
+reference framework for development for heterogeneous platforms is \textit{OpenCL}\cite{OpenCL}.
 
 --- Como funciona o OpenCL
 
@@ -324,38 +351,38 @@ The current status of the system is that is it not yet operational.
 %------------------------------------------------------------------------------
 \subsubsection{Sub-subsection level and lower: only first character uppercase}
 
-Figures and tables should appear as closely as possible to where they are first cited, e.g. Fig.~\ref{fig:esquema-cluster}, in the text.  Figures are numbered in Arabic numerals, with the caption centered below the figure, in boldface. Double-space before the figure, and after the figure caption.
+%Figures and tables should appear as closely as possible to where they are first cited, e.g. Fig.~\ref{fig:esquema-cluster}, in the text.  Figures are numbered in Arabic numerals, with the caption centered below the figure, in boldface. Double-space before the figure, and after the figure caption.
 
 
-\newcommand{\cc}{\centering}
-\newcommand{\rr}{\raggedright}
-\newcommand{\tn}{\tabularnewline}
-\renewcommand{\arraystretch}{1.5}
-\begin{table}[h]
-\caption{Numerical results to the model problem} %title of the table
-\centering % centering table
-\begin{tabular}{|p{3cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}|}
-\hline
-\cc Mesh             &\cc 8$\times$8  &\cc 16$\times$16   &\cc 32$\times$32   &\cc 64$\times$64 \tn \hline        
-\rr Nodal            &\cc 1.000       &\cc 2.500          &\cc 6.250          &\cc 1.563        \tn \hline
-\rr Characteristic   &\cc 1.000       &\cc 2.500          &\cc 6.250          &\cc 1.563        \tn \hline
-\end{tabular}
-\label{table_1}
-\end{table}
+%\newcommand{\cc}{\centering}
+%\newcommand{\rr}{\raggedright}
+%\newcommand{\tn}{\tabularnewline}
+%\renewcommand{\arraystretch}{1.5}
+%\begin{table}[h]
+%\caption{Numerical results to the model problem} %title of the table
+%\centering % centering table
+%\begin{tabular}{|p{3cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}|}
+%\hline
+%\cc Mesh             &\cc 8$\times$8  &\cc 16$\times$16   &\cc 32$\times$32   &\cc 64$\times$64 \tn \hline        
+%\rr Nodal            &\cc 1.000       &\cc 2.500          &\cc 6.250          &\cc 1.563        \tn \hline
+%\rr Characteristic   &\cc 1.000       &\cc 2.500          &\cc 6.250          &\cc 1.563        \tn \hline
+%\end{tabular}
+%\label{table_1}
+%\end{table}
 
-When importing figures or any graphical image please verify two things:
+%When importing figures or any graphical image please verify two things:
 
-\begin{itemize}
+%\begin{itemize}
 
-\item Any number, text or symbol is in Times font and is not smaller than 10-point after reduction to the actual window in your paper;
+%\item Any number, text or symbol is in Times font and is not smaller than 10-point after reduction to the actual window in your paper;
 
-\item That it can be translated into PDF.
+%\item That it can be translated into PDF.
 
-\end{itemize}
+%\end{itemize}
 
 
 
-Tables, like Table~\ref{table_1}, are numbered in Arabic numerals, with the caption centered above the table, in {\bf boldface}.  Double-space before and after the table.
+%Tables, like Table~\ref{table_1}, are numbered in Arabic numerals, with the caption centered above the table, in {\bf boldface}.  Double-space before and after the table.
 
 %------------------------------------------------------------------------------
 
@@ -386,11 +413,11 @@ of the cluster.
 
 \begin{thebibliography}{99} %99 é o número máximo que o thebibliography permite. Numero de referencias que aparecerão.
 
-\bibitem{linux} ``The Linux Documentation Project'', \\\verb#http://www.tldp.org/LDP/intro-linux/html/chap_01.html# (2017).
+\bibitem{linux} "The Linux Documentation Project", \\\verb#http://www.tldp.org/LDP/intro-linux/html/chap_01.html# (2017).
 
-\bibitem{Dongarra2017} John Dongarra et. al., ``With Extreme Computing, the Rules Have Changed'', \textit{Computing in Science Engineering}, \textbf{19}, pp. 52--62, (2017).
+\bibitem{Dongarra2017} John Dongarra et. al., "With Extreme Computing, the Rules Have Changed", \textit{Computing in Science Engineering}, \textbf{19}, pp. 52--62, (2017).
 
-\bibitem{accelerators} ``What is GPU-accelerated computing?'', \\\verb#http://www.nvidia.com/object/what-is-gpu-computing.html# (2017).
+\bibitem{accelerators} "What is GPU-accelerated computing?", \\\verb#http://www.nvidia.com/object/what-is-gpu-computing.html# (2017).
 
 \bibitem{windows7} Jorge Orchilles, \textit{Microsoft Windows 7 Administrator's Reference}, Syngress, Boston USA (2010).
 
@@ -402,12 +429,19 @@ of the cluster.
 %} 
 
   % Centos
-  
+\bibitem{centos} "The CentOS Project", \verb#https://www.centos.org# (2017).
+
+\bibitem{yum} "man7.org yum man page", \verb#http://man7.org/linux/man-pages/man8/yum.8.html# (2017).
+
+\bibitem{Boettiger} Carl Boettiger, "An introduction to Docker for reproducible research", \textit{SIGOPS Operating System Review}, \textbf{49}, pp. 71--79, (2015).
+
+\bibitem{Tommaso} Paolo Di Tommaso et al. "The Impact of Docker Containers on the Performance of Genomic Pipelines" \textit{PeerJ}, \textbf{3}, (2015).
+
 \bibitem{linuxbook} Wirzenius and Lars, \textit{The  Linux System Administrator's Guide}, iUniverse incorporated (2000).
 
-\bibitem{hal} Benjamin Depardon, Ga\"{e}l Le Mahec and Cyril S\'{e}guin, ``Analysis of Six Distributed File Systems'', Research Report, pp. 44, (2013).
+\bibitem{hal} Benjamin Depardon, Ga\"{e}l Le Mahec and Cyril S\'{e}guin, "Analysis of Six Distributed File Systems", Research Report, pp. 44, (2013).
   
-\bibitem{gluster} Alex Davies and Alessandro Orsaria, ``Scale out with GlusterFS'', \textit{The Linux Journal}, \textbf{2013}, (2013).
+\bibitem{gluster} Alex Davies and Alessandro Orsaria, "Scale out with GlusterFS", \textit{The Linux Journal}, \textbf{2013}, (2013).
 
   % journal = {Linux J.},
 % issue_date = {November 2013},
@@ -424,7 +458,7 @@ of the cluster.
 %} 
 
 
-\bibitem{CUDA} John Nickolls, Ian Buck, Michael Garland and Kevin Skadron, ``Scalable Parallel Programming with CUDA'', \textit{Queue - GPU Computing}, \textbf{6}, pp. 40--53, (2008).
+\bibitem{CUDA} John Nickolls, Ian Buck, Michael Garland and Kevin Skadron, "Scalable Parallel Programming with CUDA", \textit{Queue - GPU Computing}, \textbf{6}, pp. 40--53, (2008).
 
 
 
