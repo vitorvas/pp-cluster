@@ -36,7 +36,6 @@ AND PERSPECTIVES}
 \thispagestyle{empty}
 
 %--------------------------------------------------------------------------------------
-
 \begin{abstract_full_paper}
   The specification, configuration and management of a professional computer cluster are specialized
 tasks usually hold by well trained teams, often full-time hired computer scientists. However, in
@@ -59,7 +58,6 @@ being scientists and its own technical staff at the same time.
 \end{abstract_full_paper}
 
 %--------------------------------------------------------------------------------------
-
 \section{INTRODUCTION}\label{int}
 
 Nowadays computers are indispensable tools for scientists of any field.
@@ -84,7 +82,6 @@ sharing among nodes to options to update, backup and access the system.
 
 
 %--------------------------------------------------------------------------------------
-
 \subsection{Context}
 
 As aforementioned, the cluster presented in this paper is aimed to scientific computing.
@@ -107,10 +104,7 @@ scientific computing. An interesting perspective of the way of research can chan
 use of intensive scientific computing - in this case, the extreme computing - is elegantly
 presented by Dongarra\cite{Dongarra2017}.
 
-%Teste de todas as citações disponíveis no bibtex: Wu\cite{Wu2016}, Nagaya\cite{Nagaya2015}.
-
 %------------------------------------------------------------------------------
-
 \section{OBJECTIVE}
 
 The objective of this paper is to present the challenges, problems and solutions proposed
@@ -118,15 +112,10 @@ to setup a professional computational cluster to carry heavy numerical calculati
 neutronics and thermal-hydraulics of nuclear reactors in a
 context of a small research team.
 
-%\begin{equation}
-%  \nabla\cdot\mathbf{J} + \Sigma_{a} \Phi - s =0 .
-%  \label{eq_1}
-%\end{equation}
-
 %------------------------------------------------------------------------------
-
 \section{METHODS AND PROCEDURES}
 
+%------------------------------------------------------------------------------
 \subsection{Local Structure}
 
 In order to start the operation of a cluster system, there are some considerations the must
@@ -136,7 +125,7 @@ reliable operation.
 From the security point of view, the cluster is located at a locked room with limited access to
 the personal related to manage and install the system. The building in which the cluster is located
 is part of the entire institute which is fenced and guarded by armed security personal, what makes
-unautorized access or intrusion a minor issue.
+unauthorized access or intrusion a minor issue.
 
 The meaning of safety in this text is related to only to system safety. Personal
 safety is not an issue since no special conditions are necessary to operated and use the cluster other
@@ -144,12 +133,13 @@ than use an ordinary desktop computer. The safety of the system consist in guara
 which are not harmful to the hardware. In order to guarantee a proper operational temperature, two dedicated
 air conditioning devices work in parallel. These equipments are dimensioned to be able to maintain, each one alone,
 the working temperature at the cluster room considering the system at full operation, i.e. all nodes using all cores
-and GPU's.
+and GPUs.
 
 Related to reliability, the system is plugged to a remotely configurable no-break of 40KvA. This equipment
-can provide power for the whole cluster for more than 10 minutes, time sufficent to be able to save the state of current jobs
-for all users. The implementation of shutdown scripts related to no-break signais is still to be defined.
+can provide power for the whole cluster for more than 10 minutes, time sufficient to be able to save the state of current jobs
+for all users. The implementation of shutdown scripts related to no-break signals is still to be defined.
 
+%------------------------------------------------------------------------------
 \subsection{Hardware and Software}
 
 The so-called cluster system is formed by a set of identical high performance computers -
@@ -168,8 +158,8 @@ $32$Gb of RAM each. They have 2x$10$GbE (Gigabit Ethernet) and 2x$1$Gbit network
 allow the use of the Gigabit network exclusively for intra-cluster communication. Each node
 has a $360$Gb solid state disk for storage.
 
-These equipments are also installed with Nvidia{\textregistered} GPU's (Graphic Processing Units) M4000{\textregistered} with $8$Gb CUDA\cite{CUDA} capable.
-The GPU's on nodes, despite capable of visualization, are expected to be used as secondary calculation units.
+These equipments are also installed with Nvidia{\textregistered} GPUs (Graphic Processing Units) M4000{\textregistered} with $8$Gb CUDA\cite{CUDA} capable.
+The GPUs on nodes, despite capable of visualization, are expected to be used as secondary calculation units.
 The use of graphic processors for calculations is widely applied in scientific computing and these divides
 are also called accelerators\cite{accelerators}.
 
@@ -186,12 +176,13 @@ The original OS sold with the cluster is an OEM (Original Equipment Manufacturer
 OS is not supported by the whole set of software expected to be used by the research group users. The chosen
 system to replace the original Windows 7 is CentOS (Community Enterprise Operating System)\cite{centos}, which offers a platform to natively run all
 software needed by the users. CentOS is a community driven free-software effort which focuses in provide a robust open source ecosystem.
-Its typical users are organisations or individuals which have professional oriented hardware but do not need strong commercial support
-in order to achieve succesful operation. It is fully compatible with Red Hat Enterprise Linux and in full compliance with Red Hat's
+Its typical users are organizations or individuals which have professional oriented hardware but do not need strong commercial support
+in order to achieve successful operation. It is fully compatible with Red Hat Enterprise Linux and in full compliance with Red Hat's
 redistribution requirements.
 
 Details on possible options for software compatibility and operating system independence will be given on subsections \ref{ssub:dock} and \ref{ssub:virt}
 
+%------------------------------------------------------------------------------
 \subsection{Linux Operating System}
 
 The reason for choosing \textit{CentOS} as the Linux flavor for the system is due to its characteristics and the previous
@@ -203,9 +194,10 @@ A second reason is to take advantage of previous competence of the installation 
 in using Fedora Linux, a distribution fully compatible with CentOS.
 
 That said, all the software currently in use by the Thermal-Hydraulics Laboratory team are compatible with CentOS. This
-makes this flavor of Linux the straighforward choice for the cluster system. It is also worth noting that the use of
+makes this flavor of Linux the straightforward choice for the cluster system. It is also worth noting that the use of
 free and open-source software has a social meaning in promoting the share of knowledge.
 
+%------------------------------------------------------------------------------
 \subsection{Software Solutions}
 \label{sub:ssol}
 
@@ -229,11 +221,11 @@ The chosen network topology have impacts on system maintenance. Since the slave 
 master is configured to hold a mirror of packages installed in all system machines. The average download rate for main CentOS package provider site at the
 master node is of $500$Kbytes/second in trough the proxy in CDTN's network.
 With this in mind, the master machine is scheduled to make updates from time to time (once a week in the current configuration) while the slaves are also scheduled to
-make their updates after the master and from master's local repository. This approach has advantages, like decreasing internet bandwitch demand since only
+make their updates after the master and from master's local repository. This approach has advantages, like decreasing internet bandwidth demand since only
 one machine downloads updated packages from the internet. Other advantage is in downloading time, since the slaves
 use dedicated $10$GbE connections to the master which provides the necessary packages.
 
-As expected, this approach has its drawback. A certain ammount of disk space is needed to keep a mirror of CentOS packages locally.
+As expected, this approach has its drawback. A certain amount of disk space is needed to keep a mirror of CentOS packages locally.
 To decrease this space consumption, only packages already installed on the system - master and slaves - are
 downloaded and kept in the local repository. In the case of the installation of a new package not yet present in the repository,
 it must be installed in the master. After that, the scheduled script guarantees its availability for the slaves. In the uncommon
@@ -248,13 +240,14 @@ They are not currently in use in the describe cluster system, but are presented 
 or complementary options for specific cases. For example, the use of a software which is incompatible with another one already
 in use.
 
+%------------------------------------------------------------------------------
 \subsubsection{Docker}
 \label{ssub:dock}
 
 Docker is a software technology providing containers. A container can be seen as an isolated user space provided by the operating system
 kernel. Docker technology works providing an additional level of abstraction and automation at operating system level. In other words,
-docker provides a way of programs run without direct communication with the operating system. This makes programs unware of details of the
-system and less dependent on specific configurations of the operating system. Docker provides the middleware which controls the interaction
+docker provides a way of programs run without direct communication with the operating system. This makes programs unaware of details of the
+system and less dependent on specific configurations of the operating system. Docker provides the middle-ware which controls the interaction
 between programs and operating system.
 
 Moreover, Docker allows applications to be efficiently distributed and executed in a portable manner. The same application can be easily
@@ -265,7 +258,7 @@ setup procedures in the host machine. The toolchain complexity is performed only
 on the other hand, only have to install Docker and its packages. No extra work to make applications run. A valuable and detailed evaluation
 of the use of Docker in the high demand computational field of research of bioinformatics is presented by Tommaso et al.\cite{Tommaso}.
 
-
+%------------------------------------------------------------------------------
 \subsubsection{Operating System Virtualization}
 \label{ssub:virt}
 
@@ -273,11 +266,12 @@ Virtualization is the creation and use of a version of (usually) an operating sy
 is a technique widely used for cloud computing, where users send their jobs to be running in non-local computers usually provided
 as services. Virtualization makes possible to have many different machines installed following the needs of the users without the
 problem of machines management. The main drawback of its use is that virtualization is costly in terms of performance, since operating system
-resources that otherwise would be shared by many processes must be kept individualy for each virtual machine.
+resources that otherwise would be shared by many processes must be kept individually for each virtual machine.
 
 There are solid studies on the use of virtualization as service for scientific research\cite{vir1,vir2}. In the present case, virtualization
 is seen as a last resource for running essential software in the cases where the usual operating system or Docker do not work.
 
+%------------------------------------------------------------------------------
 \subsection{File System}
 
 A crucial element of a computer system architecture is its file system. A file system is the set of data structures and functions an operating system
@@ -289,21 +283,21 @@ is provided by a specialized file system, usually called distributed file system
 
 The chosen solution for distributed file system management is the GlusterFS\cite{gluster}. GlusterFS is an open source, distributed file system and has
 a unique no-metadata server architecture. Most distributed file systems use a metadata server, which has information on where to retrieve data which is
-physically scattered among different disks. This architecture imposes a dependence on the metadata server. If it goes down, the system becomes inacessible.
+physically scattered among different disks. This architecture imposes a dependence on the metadata server. If it goes down, the system becomes inaccessible.
 GlusterFS keeps this information as distributed hashes, avoiding the dependence on one server or node.
 
 The control of Gluster is transparent for users, providing a level of abstraction with no impact on how users of the system operate with their files. This
 abstraction also has no impact in system management. An envisaged quota control of user accounts can work without any problem above the GlusterFS file system.
 
 Another option under consideration is the more robust Lustre file system\cite{lustre}. Lustre is a parallel distributed file system widely used in large-scale
-cluster systems. Despite its reliability and recognized performance (high I/O troughput: more than a terabyte per second), it is not the first choice
+cluster systems. Despite its reliability and recognized performance (high I/O throughput: more than a terabyte per second), it is not the first choice
 for the distributed file system for the presented cluster due to its higher learning curve for installation and administration compared to GlusterFS.
 It is important to keep in mind that as the cluster management personal is limited and formed by non-experienced system
 administrators thus simpler systems are favored as long as they meet the operating criteria. The size of the presented cluster is also small by Lustre standards.
 
 With that in mind, Lustre remains as a second option in the case of GlusterFS does not perform as expected. 
 
-
+%------------------------------------------------------------------------------
 \subsection{Visualization}
 
 The presence of powerful GPU devices in each node of the cluster make possible their use for calculations. However,
@@ -311,104 +305,119 @@ this hardware can be used for its natural task: visualization. At a first glance
 straightforward. However, there are trick details in using different nodes to render and output one image. The first one
 is the ability to gather scattered information in order to produce the desirable output in one display.
 
-Gladly, there is software aimed to data visualization which address the presented issue. Developed by Kitware\cite{kitware},
+Gladly, there is software aimed to data visualization which address the presented issue. Developed to be able to work with complex data,
 Paraview\cite{paraview} is an open-source multiple-platform application for scientific visualization. Its design considers
 the use of a client-server architecture in order to deal with data-sets scattered among many nodes in a multiprocessing
 system. 
 
 
+%------------------------------------------------------------------------------
 \subsection{Graphics Processors: Extended Use}
-%\subsection{Extending the Use of graphics processors}
 
 The system under consideration has powerful GPU cards installed in machines
-which have no output display. The use of GPU's to perform tasks other than graphics processing
-is nowadays widespread in many fields of research \cite{UsoDeGpus}. Modern software is written with
+which have no output display. The use of GPUs to perform tasks other than graphics processing
+is nowadays widespread in many fields of research \cite{gpgpu}. Modern software is written with
 the objective of taking advantage of this ``extra'' processing capabilities and studies of software
-engineering on parallelization of sequential algorithms to be applied in GPU's are a significant
+engineering on parallelization of sequential algorithms to be applied in GPUs are a significant
 nowadays.
 
-In order to make the use of GPU's for general processing less difficult, libraries, compilers and
+In order to make the use of GPUs for general processing less difficult, libraries, compilers and
 frameworks were developed. At the beginning these tools were developed and deployed by graphics cards
-manufacturers. The pioneer in offering both GPU's cards capable of general use is NVIDIA, which,
+manufacturers. The pioneer in offering both GPUs cards capable of general use is Nvidia, which,
 without surprise, is also pioneer in making a available a full framework for its GPU programming.
-This tool is called CUDA (Compute Unified Device Architecture) and is a ``de facto'' parallel computing platform
-and application programming interface (API) model.
+This tool is called CUDA (Compute Unified Device Architecture) and is the standard parallel computing platform
+and application programming interface (API) model for Nvidia's graphic cards.
 
-CUDA can be used with a set of libraries for ...........
+CUDA can be used together with many libraries for a wide range of programming tasks. Nvidia provides CUDA
+auxiliary libraries for, for example, linear solvers (AmgX), deep neural networks (cuDNN), Fast Fourier Transform (cuFFT) and
+many others. 
 
 However, with the increase of the use the cards, developers start to demand some
 standardization in order to be able experiment new algorithms in different cards. Today, the
-reference framework for development for heterogeneous platforms is \textit{OpenCL}\cite{OpenCL}.
+reference framework for development for heterogeneous platforms is \textit{OpenCL}\cite{opencl}.
 
---- Como funciona o OpenCL
+OpenCL\texttrademark (Open Computing Language) is an industry standard for task-parallel and
+data-parallel heterogeneous computing. It is designed to work on a variety of modern
+CPUs, GPUs, DSPs and other microprocessor designs. OpenCL provides a abstractions and a
+programming API (Application Programming Interface) and defines a core functionality that all
+devices must support, as well as optional functionality for high-function devices. It also
+includes an extension mechanism that let vendors implement unique hardware features and
+experimental programming interfaces for their devices and for the application developers
+benefit. OpenCL does guarantee compatibility and portability at the expense of some less
+of performance when compared to proprietary implementations.
 
-The idea for the cluster system, is to provide both CUDA libraries for
-software developed for NVIDIA graphic cards and also OpenCL libraries to
+The idea for the presented cluster system, is to provide both CUDA libraries for
+software developed for Nvidia graphic cards and also OpenCL libraries to
 be used by software written to make use of the programming genericity
 provided by OpenCL. As the time of writing, the libraries were installed
 in only one node of the cluster and tests are being envisaged to check
 compatibility of both frameworks.
 
-
-
-
+%------------------------------------------------------------------------------
 
 \section{RESULTS AND ANALYSIS}
 
-The current status of the system is that is it not yet operational.
+All the results presented in this section include the master node and only one slave node.
+Since all slaves have identical hardware, it is sufficient to install and configure only one
+node and after finishing, replicate a mirror of its configuration to other nodes\footnote{Few configurations like
+  network IP's must be unique and thus configured after mirroring. However, this kind of task is simple enough to worth the mirroring approach.}
+The current status of the system is that it is partially operational with some goals reached:
+
 \begin{itemize}
 
-\item (Situação atual do sistema - no momento de finalizer o paper)
-\item (Dificuldades identificadas: Resolvidas (como) e Pendentes.
+\item Distributed file system GlusterFS up and running;
+\item Master node installed and running with local packages repository up and running;
+\item NVidia GPU drivers installed in the master node replacing the generic drivers provided by CentOS.
   
 \end{itemize}
 
-%------------------------------------------------------------------------------
-\subsubsection{Sub-subsection level and lower: only first character uppercase}
+The short list above encompasses the very main steps to have the system running. All the next
+steps can be seen as applications installation and fine tuning of the system configuration.
+Some of the following steps are:
 
-%Figures and tables should appear as closely as possible to where they are first cited, e.g. Fig.~\ref{fig:esquema-cluster}, in the text.  Figures are numbered in Arabic numerals, with the caption centered below the figure, in boldface. Double-space before the figure, and after the figure caption.
+\begin{itemize}
+\item Check the compatibility of Nvidia proprietary drivers already for the accelerators in the slave node with OpenCL implementation driver for the GPU;
+\item Chose and install a reliable backup system for user accounts and define procedures for system configuration backup;
+\item Define and install a user queue manager to control user precedence and access to nodes;
+\item Install and test all scientific software to be used in the beginning of cluster operations.
+\end{itemize}
 
-
-%\newcommand{\cc}{\centering}
-%\newcommand{\rr}{\raggedright}
-%\newcommand{\tn}{\tabularnewline}
-%\renewcommand{\arraystretch}{1.5}
-%\begin{table}[h]
-%\caption{Numerical results to the model problem} %title of the table
-%\centering % centering table
-%\begin{tabular}{|p{3cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}|}
-%\hline
-%\cc Mesh             &\cc 8$\times$8  &\cc 16$\times$16   &\cc 32$\times$32   &\cc 64$\times$64 \tn \hline        
-%\rr Nodal            &\cc 1.000       &\cc 2.500          &\cc 6.250          &\cc 1.563        \tn \hline
-%\rr Characteristic   &\cc 1.000       &\cc 2.500          &\cc 6.250          &\cc 1.563        \tn \hline
-%\end{tabular}
-%\label{table_1}
-%\end{table}
-
-%When importing figures or any graphical image please verify two things:
-
-%\begin{itemize}
-
-%\item Any number, text or symbol is in Times font and is not smaller than 10-point after reduction to the actual window in your paper;
-
-%\item That it can be translated into PDF.
-
-%\end{itemize}
-
-
-
-%Tables, like Table~\ref{table_1}, are numbered in Arabic numerals, with the caption centered above the table, in {\bf boldface}.  Double-space before and after the table.
+In order to be able to verify the operation of the cluster, a list of elements of operation is under consideration.
+This list is aimed to be a guide of what aspects are being complied with or not. The main idea is to have a score for
+each operational aspect related to the system design (file system, user processes, disk occupancy, etc.) and after three, six and twelve months of full operation, be able to evaluate if the system is currently
+operating satisfactorily.
 
 %------------------------------------------------------------------------------
 
 \section{CONCLUSIONS AND PERSPECTIVES}
 
-(O que está bom, o que está ruim na atual instalação)
-(Trabalhos futuros: pra onde ir (operação), possíveis mudanças)
+%(O que está bom, o que está ruim na atual instalação)
+%(Trabalhos futuros: pra onde ir (operação), possíveis mudanças)
+
+The process of acquiring, installing and managing a cluster system is a very specific task aimed to well trained
+personal. In a perfect situation, a team of specialists would take care of these tasks letting the users - scientists in the present case -
+free to focus on their research work and on how to take the most of such system. However, in other cases the users themselves must
+take care of the whole process.
+
+Although challenging, this can be seen as an opportunity to have a deeper of understanding of the tool one must use the accomplish his tasks.
+This the case in this work, where the users had to chose among many options to make a professional cluster operational.
+
+As an ongoing work, some of the challenges - like defining and installing a distributed file system, for example - were successfully
+addressed. Other remain to be figured out and worked out.
 
 There are many ongoing tasks and even more tasks still to be started. To mention a few, one
 interesting task related to the reliability and data management is the implementation of
-a automatic process of shutdown on loss of power supply.
+a automatic process of shutdown on loss of power supply. Other one is to define a systematic
+user account backup to avoid loss of data of expensive simulations at the same time ensuring
+disk space availability.
+
+As a conclusion, there is a clear trade-off between the situation were the tool is available e ready to use and the discussed case in this paper.
+The former clearly saves precious time that can be devoted to the research work itself. However, the latter situation has a not so obvious
+advantage: being forced expend time to understand details of the tool's operation, scientists acquire a new perspective on how to apply their
+methods. This can lead to changes or improvements in the way a problem is solved. If this is a real advantage is yet to be shown. However,
+in a situation when there is no choice, this can be a positive condition on the improvement of methods, solutions and approaches used
+uncritically on a daily basis.
+
 
 %Uma cita\c{c}\~{a}o \cite{Henderson17}.
 
@@ -428,75 +437,48 @@ of the cluster.
 
 \begin{thebibliography}{99} %99 é o número máximo que o thebibliography permite. Numero de referencias que aparecerão.
 
-\bibitem{linux} "The Linux Documentation Project", \\\verb#http://www.tldp.org/LDP/intro-linux/html/chap_01.html# (2017).
+\bibitem{linux} ``The Linux Documentation Project'', \\\verb#http://www.tldp.org/LDP/intro-linux/html/chap_01.html# (2017).
 
-\bibitem{Dongarra2017} John Dongarra et. al., "With Extreme Computing, the Rules Have Changed", \textit{Computing in Science Engineering}, \textbf{19}, pp. 52--62, (2017).
+\bibitem{Dongarra2017} John Dongarra et. al., ``With Extreme Computing, the Rules Have Changed'', \textit{Computing in Science Engineering}, \textbf{19}, pp. 52--62, (2017).
 
-\bibitem{accelerators} "What is GPU-accelerated computing?", \\\verb#http://www.nvidia.com/object/what-is-gpu-computing.html# (2017).
+\bibitem{CUDA} John Nickolls, Ian Buck, Michael Garland and Kevin Skadron, ``Scalable Parallel Programming with CUDA'', \textit{Queue - GPU Computing}, \textbf{6}, pp. 40--53, (2008).
+
+\bibitem{accelerators} ``What is GPU-accelerated computing?'', \\\verb#http://www.nvidia.com/object/what-is-gpu-computing.html# (2017).
 
 \bibitem{windows7} Jorge Orchilles, \textit{Microsoft Windows 7 Administrator's Reference}, Syngress, Boston USA (2010).
-
-  % author = {Wirzenius, Lars},
-% title = {The  Linux System Administrator's Guide},
-% year = {2000},
-% isbn = {0595137636},
-% publisher = {iUniverse, Incorporated},
-%} 
-
+  
   % Centos
-\bibitem{centos} "The CentOS Project", \verb#https://www.centos.org# (2017).
+\bibitem{centos} ``The CentOS Project'', \verb#https://www.centos.org# (2017).
 
-\bibitem{yum} "man7.org yum man page", \verb#http://man7.org/linux/man-pages/man8/yum.8.html# (2017).
+\bibitem{yum} ``man7.org yum man page'', \verb#http://man7.org/linux/man-pages/man8/yum.8.html# (2017).
+  
+\bibitem{Boettiger} Carl Boettiger, ``An introduction to Docker for reproducible research'', \textit{SIGOPS Operating System Review}, \textbf{49}, pp. 71--79, (2015).
 
-\bibitem{Boettiger} Carl Boettiger, "An introduction to Docker for reproducible research", \textit{SIGOPS Operating System Review}, \textbf{49}, pp. 71--79, (2015).
-
-\bibitem{Tommaso} Paolo Di Tommaso et al. "The Impact of Docker Containers on the Performance of Genomic Pipelines" \textit{PeerJ}, \textbf{3}, (2015).
+\bibitem{Tommaso} Paolo Di Tommaso et al. ``The Impact of Docker Containers on the Performance of Genomic Pipelines'' \textit{PeerJ}, \textbf{3}, (2015).
 
   % Virtualizacao (9 e 10)
-\bibitem{vir1} A. J. Younge and G. C. Fox, "Advanced Virtualization Techniques for High Performance Cloud Cyberinfrastructure", \textit{2014 14th IEEE/ACM International Symposium on Cluster, Cloud and Grid Computing}, Chicago, IL, USA, pp. 583--586, May, (2014).
+\bibitem{vir1} A. J. Younge and G. C. Fox, ``Advanced Virtualization Techniques for High Performance Cloud Cyberinfrastructure'', \textit{2014 14th IEEE/ACM International Symposium on Cluster, Cloud and Grid Computing}, Chicago, IL, USA, pp. 583--586, May, (2014).
   
-\bibitem{vir2} I. Sadooghi, J. H. Martin, T. Li, K. Brandstatter, K. Maheshwari, T. P. P. de Lacerda Ruivo, G. Garzoglio, S. Timm, Y. Zhao and I. Raicu, "Understanding the Performance and Potential of Cloud Computing for Scientific Applications", \textit{IEEE Transactions on Cloud Computing}, \textbf{5}, pp. 358--371, (2017).
+\bibitem{vir2} I. Sadooghi, J. H. Martin, T. Li, K. Brandstatter, K. Maheshwari, T. P. P. de Lacerda Ruivo, G. Garzoglio, S. Timm, Y. Zhao and I. Raicu, ``Understanding the Performance and Potential of Cloud Computing for Scientific Applications'', \textit{IEEE Transactions on Cloud Computing}, \textbf{5}, pp. 358--371, (2017).
   
 \bibitem{linuxbook} Wirzenius and Lars, \textit{The  Linux System Administrator's Guide}, iUniverse incorporated (2000).
 
-\bibitem{hal} Benjamin Depardon, Ga\"{e}l Le Mahec and Cyril S\'{e}guin, "Analysis of Six Distributed File Systems", Research Report, pp. 44, (2013).
+\bibitem{hal} Benjamin Depardon, Ga\"{e}l Le Mahec and Cyril S\'{e}guin, ``Analysis of Six Distributed File Systems'', Research Report, pp. 44, (2013).
   
-\bibitem{gluster} Alex Davies and Alessandro Orsaria, "Scale out with GlusterFS", \textit{The Linux Journal}, \textbf{2013}, (2013).
+\bibitem{gluster} Alex Davies and Alessandro Orsaria, ``Scale out with GlusterFS'', \textit{The Linux Journal}, \textbf{2013}, (2013).
 
-  \bibitem{lustre} "Lustre* Software Release 2.x: Operations Manual", Editor: Intel Corporation, (2017).
-  % journal = {Linux J.},
-% issue_date = {November 2013},
-% volume = {2013},
-% number = {235},
-% month = nov,
-% year = {2013},
-% issn = {1075-3583},
-% articleno = {1},
-% url = {http://dl.acm.org/citation.cfm?id=2555789.2555790},
-% acmid = {2555790},
-% publisher = {Belltown Media},
-% address = {Houston, TX},
-%} 
+\bibitem{lustre} ``Lustre* Software Release 2.x: Operations Manual'', Editor: Intel Corporation, (2017).
 
+\bibitem{paraview} Ayachit, Utkarsh, \textit{The ParaView Guide: A Parallel Visualization Application}, Kitware, ISBN 978-1930934306, (2015).
 
-\bibitem{CUDA} John Nickolls, Ian Buck, Michael Garland and Kevin Skadron, "Scalable Parallel Programming with CUDA", \textit{Queue - GPU Computing}, \textbf{6}, pp. 40--53, (2008).
+  \bibitem{gpgpu}  John D. Owens, David Luebke, Naga Govindaraju, Mark Harris, Jens Kr\"{u}ger, Aaron E. Lefohn, and Tim Purcell, ``A Survey of General-Purpose Computation on Graphics Hardware'', \textit{Computer Graphics Forum}, \textbf{26(1)}, pp. 80--113, March (2007).
 
-
-
-  
-%\bibitem{article} B. Author(s), ``Title", \textit{Journal Name in Italic}, \textbf{Volume in Bold}, pp. 34--89, (19xx).
-
-%\bibitem{proceeding} C. D. Author(s), ``Article Title", \textit{Proceeding of Meeting in Italic}, Location, Dates of Meeting, Vol. n, pp. 134--156, (19xx).
-
-%\bibitem{book} E. F. Author. \textit{Book Title in Italic}, Publisher, City \& Country (19xx).
-
-%\bibitem{website} ``Spallation Neutron Source: The next-generation neutron-scattering facility for the United States", \verb#http://www.sns.gov/documentation/sns_brochure.pdf# (2002).
+  \bibitem{opencl} J. E. Stone, D. Gohara and G. Shi, ``OpenCL: A Parallel Programming Standard for Heterogeneous Computing Systems'', \textit{Computing in Science \& Engineering}, \textbf{12(3)}, pp. 66--73, May-June (2010).
 
 \end{thebibliography}
 
 % ---------------------------------------------------------
 % Minha bibliografia usando arquivo externo
-
 %\bibliographystyle{unsrt}
 %\bibliography{bibli}
 
